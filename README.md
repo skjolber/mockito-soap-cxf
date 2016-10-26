@@ -114,5 +114,6 @@ public void mockService() {
 # License
 Apache license 2.0.
 
+[Maven]:               	http://maven.apache.org/
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
