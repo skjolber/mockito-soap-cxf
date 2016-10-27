@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.camunda.bpm.example.spring.soap.v1.BankCustomerServicePortType;
 import com.camunda.bpm.example.spring.soap.v1.BankException;
 import com.camunda.bpm.example.spring.soap.v1.BankException_Exception;

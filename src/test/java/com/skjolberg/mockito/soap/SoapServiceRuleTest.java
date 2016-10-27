@@ -1,32 +1,16 @@
 package com.skjolberg.mockito.soap;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-
-import static org.mockito.ArgumentMatchers.*;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.cxf.binding.soap.SoapFault;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,8 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.expression.TypedValue;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
