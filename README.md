@@ -25,6 +25,7 @@ Example dependency config:
 	<groupId>com.skjolberg</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
+	<scope>test</scope>
 </dependency>
 ```
 
