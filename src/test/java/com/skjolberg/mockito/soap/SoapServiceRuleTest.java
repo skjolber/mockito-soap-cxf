@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.cxf.binding.soap.SoapFault;
@@ -60,7 +61,7 @@ public class SoapServiceRuleTest {
 
 	@Before
 	public void setup() {
-		serviceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress);
+		serviceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 	}
 
 	@Test
@@ -74,7 +75,7 @@ public class SoapServiceRuleTest {
 
 		when(serviceMock.getAccounts(any(GetAccountsRequest.class), any(BankRequestHeader.class))).thenReturn(mockResponse);
 
-		String customerNumber = "123456789";
+		String customerNumber = "123456789"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
 
 		// actuall do something

@@ -10,7 +10,7 @@
 	<element name="getAccountsRequest">
 		<complexType>
 			<sequence>
-				<element name="customerNumber" type="string">
+				<element name="customerNumber" type="tns:customerNumberType">
                     <annotation>
                         <documentation>
                             Bank customer identifier
@@ -38,11 +38,23 @@
     <element name="bankException" >
         <complexType>
             <sequence>
-                <element name="code" type="string"/>
+                <element name="code" type="tns:code"/>
                 <element name="message" type="string"/>
             </sequence>
         </complexType>
     </element>
+
+	<simpleType name="code">
+		<restriction base="string">
+			<pattern value="[a-z]+" />
+		</restriction>
+	</simpleType>    
+	
+	<simpleType name="customerNumberType">
+		<restriction base="string">
+			<pattern value="[0-9]+" />
+		</restriction>
+	</simpleType>  	
 
 	<element name="bankRequestHeader">
 		<complexType>

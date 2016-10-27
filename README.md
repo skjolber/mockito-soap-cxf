@@ -44,8 +44,12 @@ and mock service endpoints by using
 ```java
 MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345"); 
 ```
+or, preferably
 
-The returned `serviceMock` instance is a normal Mockito mock(..) object. 
+```java
+MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", "classpath:/wsdl/MyService.wsdl"); 
+```
+for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object. 
 
 # Details
 Create mock response via code
@@ -113,3 +117,6 @@ Apache license 2.0.
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
 [Maven]:                http://maven.apache.org/
+
+# Troubleshooting
+There seems to be an issue with the use of the `-exsh` parameter for passing headers into the mock and schema validation. Rather than supplying the wsdl location, supply the XSD locations to work around the problem until a solution can be found.

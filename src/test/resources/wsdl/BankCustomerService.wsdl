@@ -5,8 +5,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
 	<wsdl:types>
 		<xsd:schema>
-			<xsd:import namespace="http://soap.spring.example.bpm.camunda.com/v1" elementFormDefault="qualified"
-				schemaLocation="BankCustomerService.xsd" />
+			<xsd:import namespace="http://soap.spring.example.bpm.camunda.com/v1" schemaLocation="BankCustomerService.xsd" />
 		</xsd:schema>
 	</wsdl:types>
 
