@@ -17,9 +17,7 @@
 	<context:property-placeholder location="classpath*:properties/dev.properties"/>
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-     		
+	
 	<context:annotation-config/>
 
 	<context:component-scan base-package="com.skjolberg.mockito.soap"/>

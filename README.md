@@ -1,5 +1,5 @@
 # mockito-soap-cxf
-SOAP web-service mocking utility which creates real service endpoints on local ports - offering traffic over HTTP.
+SOAP web-service mocking utility which creates real service endpoints on local ports - resulting in traffic over HTTP.
 
 Users will benefit from
  * full stack testing
@@ -111,12 +111,10 @@ public void mockService() {
 }
 ```
 
-# License
-Apache license 2.0.
+# Troubleshooting
+There seems to be an issue with the use of the `-exsh` parameter for passing headers into the mock and schema validation. Rather than supplying the wsdl location, supply the XSD locations to work around the problem until a solution can be found.
 
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
 [Maven]:                http://maven.apache.org/
 
-# Troubleshooting
-There seems to be an issue with the use of the `-exsh` parameter for passing headers into the mock and schema validation. Rather than supplying the wsdl location, supply the XSD locations to work around the problem until a solution can be found.
