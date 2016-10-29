@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="LoggerService"
-	targetNamespace="http://soap.spring.example.bpm.camunda.com/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:e="http://soap.spring.example.bpm.camunda.com/v1"
+	targetNamespace="http://soap.spring.example.skjolberg.com/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:e="http://soap.spring.example.skjolberg.com/v1"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
 	<wsdl:types>
 		<xsd:schema>
-			<xsd:import namespace="http://soap.spring.example.bpm.camunda.com/v1" schemaLocation="BankCustomerService.xsd" />
+			<xsd:import namespace="http://soap.spring.example.skjolberg.com/v1" schemaLocation="BankCustomerService.xsd" />
 		</xsd:schema>
 	</wsdl:types>
 

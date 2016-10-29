@@ -1,33 +1,41 @@
 package com.skjolberg.mockito.soap;
 
-
-import java.util.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.camunda.bpm.example.spring.soap.v1.BankCustomerServicePortType;
-import com.camunda.bpm.example.spring.soap.v1.BankException;
-import com.camunda.bpm.example.spring.soap.v1.BankException_Exception;
-import com.camunda.bpm.example.spring.soap.v1.BankRequestHeader;
-import com.camunda.bpm.example.spring.soap.v1.GetAccountsRequest;
-import com.camunda.bpm.example.spring.soap.v1.GetAccountsResponse;
+import com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType;
+import com.skjolberg.example.spring.soap.v1.BankException;
+import com.skjolberg.example.spring.soap.v1.BankException_Exception;
+import com.skjolberg.example.spring.soap.v1.BankRequestHeader;
+import com.skjolberg.example.spring.soap.v1.GetAccountsRequest;
+import com.skjolberg.example.spring.soap.v1.GetAccountsResponse;
+
+/**
+ * 
+ * Some kind of service bean which forwards calls to the webservice using the webservice client.
+ * 
+ * @author thomas
+ *
+ */
 
 @Service
 public class BankCustomerService {
 
-	private static Logger log = Logger.getLogger(BankCustomerService.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(BankCustomerService.class);
 
-	private BankCustomerServicePortType port;
+	private BankCustomerServicePortType port; // bankCustomerServiceClient
 
 	@Autowired
 	public BankCustomerService(BankCustomerServicePortType port) {
 		this.port = port;
 	}
 
-
 	public GetAccountsResponse getAccounts(String customerNumber, String secret) throws Exception {
 
+		logger.info("Get accounts for {} with secret {}", customerNumber, secret) ;
+		
 		GetAccountsRequest request = new GetAccountsRequest();
 		request.setCustomerNumber(customerNumber);
 
@@ -39,7 +47,7 @@ public class BankCustomerService {
 
 			BankException faultInfo = e.getFaultInfo();
 			
-			log.warning("Problem getting accounts: " + faultInfo.getCode() + ": " + faultInfo.getMessage());
+			logger.warn("Problem getting accounts: " + faultInfo.getCode() + ": " + faultInfo.getMessage());
 			
 			throw new Exception("unable to recover", e);
 		}

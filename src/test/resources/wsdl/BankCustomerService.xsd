@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://soap.spring.example.bpm.camunda.com/v1"
-	xmlns:tns="http://soap.spring.example.bpm.camunda.com/v1" elementFormDefault="qualified">
+	targetNamespace="http://soap.spring.example.skjolberg.com/v1"
+	xmlns:tns="http://soap.spring.example.skjolberg.com/v1" elementFormDefault="qualified">
 
 	<annotation>
 		<documentation>Example of web service</documentation>
@@ -45,12 +45,18 @@
     </element>
 
 	<simpleType name="code">
+		<annotation>
+			<documentation>Trivial code types so to easily break validation in examples</documentation>
+		</annotation>
 		<restriction base="string">
 			<pattern value="[a-z]+" />
 		</restriction>
 	</simpleType>    
 	
 	<simpleType name="customerNumberType">
+		<annotation>
+			<documentation>Trivial code types so to easily break validation in examples</documentation>
+		</annotation>
 		<restriction base="string">
 			<pattern value="[0-9]+" />
 		</restriction>

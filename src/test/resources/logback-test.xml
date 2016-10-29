@@ -11,7 +11,7 @@
 		</filter>
 	</appender>
     
-	<logger name="com.camunda.bpm.example.spring" additivity="false">
+	<logger name="com.skjolberg.example.spring" additivity="false">
 	    <level value="DEBUG" />
 		<appender-ref ref="consoleAppender" />
 	</logger>
@@ -20,10 +20,5 @@
 		<level value="INFO" />
 		<appender-ref ref="consoleAppender" />
 	</root>
-	
-	  <!-- For java.util.logging bridging; important for Camunda! -->
-	  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
-	    <resetJUL>true</resetJUL>
-	  </contextListener>
-	  
+
 </configuration>

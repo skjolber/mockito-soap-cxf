@@ -30,8 +30,13 @@
 		<property name="prettyLogging" value="${cxf.logging.prettyprint}" />
 	</bean>
 	
+	<!-- 
+		Notice that interceptors are added to the client, not the bus. if added to the bus
+		there will be duplicate log entries (both client and server).
+	 -->
+	
 	<jaxws:client 
-		serviceClass="com.camunda.bpm.example.spring.soap.v1.BankCustomerServicePortType" 
+		serviceClass="com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType" 
 		address="${bankcustomer.service}" id="bankCustomerServiceClient">	
 		
 		<jaxws:inInterceptors>

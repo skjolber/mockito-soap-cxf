@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/skjolber/mockito-soap-cxf.svg)](https://travis-ci.org/skjolber/mockito-soap-cxf)
+
 # mockito-soap-cxf
 SOAP web-service mocking utility which creates real service endpoints on local ports - resulting in traffic over HTTP.
 

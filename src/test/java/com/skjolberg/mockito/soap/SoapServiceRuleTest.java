@@ -23,11 +23,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.camunda.bpm.example.spring.soap.v1.BankCustomerServicePortType;
-import com.camunda.bpm.example.spring.soap.v1.BankException;
-import com.camunda.bpm.example.spring.soap.v1.BankRequestHeader;
-import com.camunda.bpm.example.spring.soap.v1.GetAccountsRequest;
-import com.camunda.bpm.example.spring.soap.v1.GetAccountsResponse;
+import com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType;
+import com.skjolberg.example.spring.soap.v1.BankException;
+import com.skjolberg.example.spring.soap.v1.BankRequestHeader;
+import com.skjolberg.example.spring.soap.v1.GetAccountsRequest;
+import com.skjolberg.example.spring.soap.v1.GetAccountsResponse;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
