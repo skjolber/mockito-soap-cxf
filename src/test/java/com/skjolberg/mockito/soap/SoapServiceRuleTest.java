@@ -120,7 +120,7 @@ public class SoapServiceRuleTest {
 		exception.expect(Exception.class);
 		 
 		// actuall do something
-		GetAccountsResponse accounts = bankCustomerService.getAccounts(customerNumber, secret);
+		bankCustomerService.getAccounts(customerNumber, secret);
 
 	}
 
