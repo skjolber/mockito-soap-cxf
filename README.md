@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/skjolber/mockito-soap-cxf.svg)](https://travis-ci.org/skjolber/mockito-soap-cxf)
+[![Build Status](https://travis-ci.org/skjolber/mockito-soap-cxf.svg?branch=master)](https://travis-ci.org/skjolber/mockito-soap-cxf)
 
 # mockito-soap-cxf
 SOAP web-service mocking utility which creates real service endpoints on local ports - resulting in traffic over HTTP.
@@ -24,7 +24,7 @@ Example dependency config:
 
 ```xml
 <dependency>
-	<groupId>com.skjolberg</groupId>
+	<groupId>com.github.skjolber</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<scope>test</scope>
