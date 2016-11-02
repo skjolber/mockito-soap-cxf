@@ -31,6 +31,18 @@ Example dependency config:
 </dependency>
 ```
 
+### CXF version < 3
+Add an exclusion for the `cxf-core` artifact
+
+```xml
+<exclusions>
+	<exclusion>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-core</artifactId>
+	</exclusion>
+</exclusions>
+```
+
 # Usage
 If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/SoapServiceRuleTest.java). 
 
@@ -115,6 +127,13 @@ public void mockService() {
 
 # Troubleshooting
 There seems to be an issue with the use of the `-exsh` parameter for passing headers into the mock and schema validation. Rather than supplying the wsdl location, supply the XSD locations to work around the problem until a solution can be found.
+
+### CXF version 2.x
+If you see exception cause by
+
+> No binding factory for namespace http://schemas.xmlsoap.org/soap/ registered.
+
+then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` artifact.
 
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues

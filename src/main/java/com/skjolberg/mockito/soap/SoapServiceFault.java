@@ -42,7 +42,7 @@ public class SoapServiceFault {
 	}
 	
 	public static <T> SoapFault createFault(Object payload) {
-
+		// not for production use; does not reuse JAXB context 
 		try {
 			JAXBContext context = JAXBContext.newInstance(payload.getClass());
 	
