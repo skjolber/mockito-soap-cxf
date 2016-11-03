@@ -17,40 +17,72 @@ import org.xml.sax.InputSource;
 
 public class SoapServiceFault {
 
-	/** construct soap fault */
-	public static SoapFault createFault(Node payload) {
+	/**
+	 * Create SOAP fault without detail.
+	 * 
+	 * @return SOAP fault
+	 */
+	
+	public static SoapFault createFault() {
 		QName qName = SoapFault.FAULT_CODE_SERVER;
 		SoapFault fault = new SoapFault("message", qName);
-		Element detail = fault.getOrCreateDetail();
-		detail.appendChild(detail.getOwnerDocument().importNode(payload, true));
 		return fault;
 	}
 
-	public static <T> SoapFault createFault(String payload) {
+	/**
+	 * Create SOAP fault with detail.
+	 * 
+	 * @param detail fault detail
+	 * @return SOAP fault
+	 */
+	
+	public static SoapFault createFault(Node detail) {
+		QName qName = SoapFault.FAULT_CODE_SERVER;
+		SoapFault fault = new SoapFault("message", qName);
+		Element detailElement = fault.getOrCreateDetail();
+		detailElement.appendChild(detailElement.getOwnerDocument().importNode(detail, true));
+		return fault;
+	}
+
+	/**
+	 * Create SOAP fault with detail.
+	 * 
+	 * @param detail XML string fault detail
+	 * @return SOAP fault
+	 */
+	
+	public static <T> SoapFault createFault(String detail) {
 		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		    factory.setNamespaceAware(true);
 	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document document = builder.parse(new InputSource(new StringReader(payload)));
+	        Document document = builder.parse(new InputSource(new StringReader(detail)));
 	        
 	        return createFault(document.getDocumentElement());
 		} catch(Exception e) {
-			throw new IllegalArgumentException(payload, e);
+			throw new IllegalArgumentException(detail, e);
 		}
         
 	}
 	
-	public static <T> SoapFault createFault(Object payload) {
+	/**
+	 * Create SOAP fault with detail.
+	 * 
+	 * @param detail JAXB-serializable detail
+	 * @return SOAP fault
+	 */
+	
+	public static <T> SoapFault createFault(Object detail) {
 		// not for production use; does not reuse JAXB context 
 		try {
-			JAXBContext context = JAXBContext.newInstance(payload.getClass());
+			JAXBContext context = JAXBContext.newInstance(detail.getClass());
 	
 			DOMResult result = new DOMResult();
 	
 			Marshaller marshaller = context.createMarshaller();
 	
-			marshaller.marshal(payload, result);
+			marshaller.marshal(detail, result);
 			
 	        return createFault(result.getNode().getFirstChild());
 		} catch(Exception e) {
