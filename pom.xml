@@ -4,7 +4,9 @@
 	<groupId>com.github.skjolber</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-
+	<name>mockito-soap-cxf</name>
+	<description>SOAP web-service mocking utility for CXF</description>
+	<url>https://github.com/skjolber/mockito-soap-cxf</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -317,13 +319,7 @@
 
 	<profiles>
 		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
+			<id>release</id>
 			<build>
 				<plugins>
 					<plugin>
