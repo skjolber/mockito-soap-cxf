@@ -318,6 +318,7 @@
 
 	<profiles>
 		<profile>
+			<!-- mvn -P release release:perform -->
 			<id>release</id>
 			<build>
 				<plugins>

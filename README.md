@@ -18,7 +18,7 @@ Bugs, feature suggestions and help requests can be filed with the [issue-tracker
 [Apache 2.0]
 
 # Obtain
-The project is based on [Maven] and is pending release to central Maven repository.
+The project is based on [Maven] and is available form central Maven repository.
 
 Example dependency config:
 
@@ -26,7 +26,7 @@ Example dependency config:
 <dependency>
 	<groupId>com.github.skjolber</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<scope>test</scope>
 </dependency>
 ```
@@ -135,7 +135,11 @@ If you see exception cause by
 
 then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` artifact.
 
+# History
+
+ - [1.0.0]: Initial version
+
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
 [Maven]:                http://maven.apache.org/
-
+[1.0.0]:				https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.0
