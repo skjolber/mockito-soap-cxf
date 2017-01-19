@@ -3,6 +3,7 @@ package com.skjolberg.mockito.soap;
 import java.io.StringReader;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -89,5 +90,29 @@ public class SoapServiceFault {
 			throw new IllegalArgumentException(e);
 		}
 	}
+
+    /**
+     * Create SOAP fault with detail.
+     * <p>Workaround for auto-generated classes not having the @XmlRootElement annotation:
+     * use JAXBElement wrapper objects, which provide the same information as @XmlRootElement,
+     * but in the form of an object, rather than an annotation.
+     * </p>
+     *
+     * @param detail JAXB-serializable detail
+     * @param clazz JAXB-serializable detail class
+     * @return SOAP fault
+     */
+    public static <T> SoapFault createFault(T detail, Class<T> clazz) {
+        // not for production use; does not reuse JAXB context
+        try {
+            JAXBContext context = JAXBContext.newInstance(clazz);
+            DOMResult result = new DOMResult();
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.marshal(new JAXBElement<T>(new QName("", "local"), clazz, detail), result);
+            return SoapServiceFault.createFault(result.getNode().getFirstChild());
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
 }
