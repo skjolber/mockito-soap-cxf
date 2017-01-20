@@ -22,6 +22,10 @@
 		<wsdl:part name="fault" element="e:bankException" />
 	</wsdl:message>
 
+	<wsdl:message name="customerException">
+		<wsdl:part name="fault" type="e:customerException" />
+	</wsdl:message>
+
     <wsdl:message name="bankHeader">
         <wsdl:part element="e:bankRequestHeader" name="bankHeader"/>
     </wsdl:message>
@@ -33,6 +37,7 @@
 			<wsdl:input message="e:getAccountsRequest" />
 			<wsdl:output message="e:getAccountsResponse" />
 			<wsdl:fault name="bankException" message="e:bankException"/>
+			<wsdl:fault name="customerException" message="e:customerException"/>
 		</wsdl:operation>
 	</wsdl:portType>
 	

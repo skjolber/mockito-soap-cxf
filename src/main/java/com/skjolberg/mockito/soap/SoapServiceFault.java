@@ -1,10 +1,13 @@
 package com.skjolberg.mockito.soap;
 
 import java.io.StringReader;
+import java.lang.annotation.Annotation;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -75,13 +78,23 @@ public class SoapServiceFault {
 	 */
 	
 	public static <T> SoapFault createFault(Object detail) {
+		return createFault(detail, null);
+	}
+	
+	public static <T> SoapFault createFault(Object detail, QName qname) {
 		// not for production use; does not reuse JAXB context 
 		try {
 			JAXBContext context = JAXBContext.newInstance(detail.getClass());
 	
 			DOMResult result = new DOMResult();
 	
-			Marshaller marshaller = context.createMarshaller();
+			Marshaller marshaller;
+			if(detail.getClass().isAnnotationPresent(XmlRootElement.class)) {
+				marshaller = getMarshaller(context, false);
+			} else {
+				detail = new JAXBElement(qname, detail.getClass(), detail);
+				marshaller = getMarshaller(context, true);
+			}
 	
 			marshaller.marshal(detail, result);
 			
@@ -91,28 +104,12 @@ public class SoapServiceFault {
 		}
 	}
 
-    /**
-     * Create SOAP fault with detail.
-     * <p>Workaround for auto-generated classes not having the @XmlRootElement annotation:
-     * use JAXBElement wrapper objects, which provide the same information as @XmlRootElement,
-     * but in the form of an object, rather than an annotation.
-     * </p>
-     *
-     * @param detail JAXB-serializable detail
-     * @param clazz JAXB-serializable detail class
-     * @return SOAP fault
-     */
-    public static <T> SoapFault createFault(T detail, Class<T> clazz) {
-        // not for production use; does not reuse JAXB context
-        try {
-            JAXBContext context = JAXBContext.newInstance(clazz);
-            DOMResult result = new DOMResult();
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.marshal(new JAXBElement<T>(new QName("", "local"), clazz, detail), result);
-            return SoapServiceFault.createFault(result.getNode().getFirstChild());
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+    protected static <T> Marshaller getMarshaller(JAXBContext context, boolean fragment) throws JAXBException {
+    	Marshaller marshaller = context.createMarshaller();
+    	
+    	marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
+    	
+    	return marshaller;
     }
 
 }

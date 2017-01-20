@@ -44,6 +44,12 @@
         </complexType>
     </element>
 
+    <complexType name="customerException">
+        <sequence>
+            <element name="status" type="string"/>
+        </sequence>
+    </complexType>
+
 	<simpleType name="code">
 		<annotation>
 			<documentation>Trivial code types so to easily break validation in examples</documentation>
