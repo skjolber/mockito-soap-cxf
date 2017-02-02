@@ -1,9 +1,13 @@
 package com.skjolberg.mockito.soap;
 
 import java.io.StringReader;
+import java.lang.annotation.Annotation;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -74,13 +78,23 @@ public class SoapServiceFault {
 	 */
 	
 	public static <T> SoapFault createFault(Object detail) {
+		return createFault(detail, null);
+	}
+	
+	public static <T> SoapFault createFault(Object detail, QName qname) {
 		// not for production use; does not reuse JAXB context 
 		try {
 			JAXBContext context = JAXBContext.newInstance(detail.getClass());
 	
 			DOMResult result = new DOMResult();
 	
-			Marshaller marshaller = context.createMarshaller();
+			Marshaller marshaller;
+			if(detail.getClass().isAnnotationPresent(XmlRootElement.class)) {
+				marshaller = getMarshaller(context, false);
+			} else {
+				detail = new JAXBElement(qname, detail.getClass(), detail);
+				marshaller = getMarshaller(context, true);
+			}
 	
 			marshaller.marshal(detail, result);
 			
@@ -89,5 +103,13 @@ public class SoapServiceFault {
 			throw new IllegalArgumentException(e);
 		}
 	}
+
+    protected static <T> Marshaller getMarshaller(JAXBContext context, boolean fragment) throws JAXBException {
+    	Marshaller marshaller = context.createMarshaller();
+    	
+    	marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
+    	
+    	return marshaller;
+    }
 
 }

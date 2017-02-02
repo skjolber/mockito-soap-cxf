@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.apache.cxf.binding.soap.SoapFault;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,6 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType;
 import com.skjolberg.example.spring.soap.v1.BankException;
 import com.skjolberg.example.spring.soap.v1.BankRequestHeader;
+import com.skjolberg.example.spring.soap.v1.CustomerException;
 import com.skjolberg.example.spring.soap.v1.GetAccountsRequest;
 import com.skjolberg.example.spring.soap.v1.GetAccountsResponse;
 
@@ -108,7 +111,7 @@ public class BankCustomerServiceTest {
 	 */
 
 	@Test
-	public void processSoapCallWithException() throws Exception {
+	public void processSoapCallWithException1() throws Exception {
 
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
@@ -124,6 +127,33 @@ public class BankCustomerServiceTest {
 		bankException.setMessage(errorMessage);
 
 		SoapFault fault = createFault(bankException);
+
+		when(serviceMock.getAccounts(any(GetAccountsRequest.class), any(BankRequestHeader.class))).thenThrow(fault);
+
+		String customerNumber = "123456789";
+		String secret = "abc";
+
+		exception.expect(Exception.class);
+		 
+		// actually do something
+		bankCustomerService.getAccounts(customerNumber, secret);
+	}
+	
+	@Test
+	public void processSoapCallWithException2() throws Exception {
+
+		// add mock response
+		GetAccountsResponse mockResponse = new GetAccountsResponse();
+		List<String> accountList = mockResponse.getAccount();
+		accountList.add("1234");
+		accountList.add("5678");
+
+		String status = "DEAD";
+
+		CustomerException customerException = new CustomerException();
+		customerException.setStatus(status);
+
+		SoapFault fault = createFault(customerException, new QName("http://soap.spring.example.skjolberg.com/v1", "customerException"));
 
 		when(serviceMock.getAccounts(any(GetAccountsRequest.class), any(BankRequestHeader.class))).thenThrow(fault);
 
