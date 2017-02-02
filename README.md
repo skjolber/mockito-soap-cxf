@@ -1,13 +1,13 @@
 [![Build Status](https://travis-ci.org/skjolber/mockito-soap-cxf.svg?branch=master)](https://travis-ci.org/skjolber/mockito-soap-cxf)
 
 # mockito-soap-cxf
-SOAP web-service mocking utility which creates real service endpoints on local ports - for traffic over HTTP.
+SOAP web-service mocking utility which creates real service endpoints on local ports using webserver instances. These endpoints delegate requests directly to mocks.
 
 Users will benefit from
  * full stack testing
    * interceptors
    * handlers
- * simple mock setup
+ * imple JUnit Rule setup
  * SOAP fault helper
 
 all with the regular advantages of Mockito.
@@ -58,11 +58,13 @@ and mock service endpoints by using
 ```java
 MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345"); 
 ```
+
 or, preferably
 
 ```java
 MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", "classpath:/wsdl/MyService.wsdl"); 
 ```
+
 for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object. 
 
 # Details
@@ -76,32 +78,38 @@ accountList.add("1234");
 accountList.add("5678");
 ```
 
-or from XML  
+or from XML
 
 ```java
 GetAccountsResponse response = jaxbUtil.readResource("/my/test/GetAccountsResponse1.xml", GetAccountsResponse.class);
 ```
 using your favorite JAXB utility. Then mock
+
 ```java
 when(serviceMock.getAccounts(any(GetAccountsRequest.class))).thenReturn(mockResponse);
 ```
-and apply standard Mockito test approach. Verify number of method calls
+
+and apply standard Mockito test approach. After triggering calls to the mock service, verify number of method calls
 
 ```java
 ArgumentCaptor<GetAccountsRequest> argument1 = ArgumentCaptor.forClass(GetAccountsRequest.class);
 verify(serviceMock, times(1)).getAccounts(argument1.capture());
 ```
+
 and request details
 
 ```java
 GetAccountsRequest request = argument1.getValue();
 assertThat(request.getCustomerNumber(), is(customerNumber));
 ```
+
 # SOAP Faults
 Mock SOAP faults by adding import
+
 ```java
 import static com.skjolberg.mockito.soap.SoapServiceFault.*;
 ```
+
 then mock doing
 
 ```java
@@ -142,4 +150,4 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
 [Maven]:                http://maven.apache.org/
-[1.0.0]:				https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.0
+[1.0.0]:		https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.0
