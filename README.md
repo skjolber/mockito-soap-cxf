@@ -4,11 +4,11 @@
 SOAP web-service mocking utility which creates real service endpoints on local ports using webserver instances. These endpoints delegate requests directly to mocks.
 
 Users will benefit from
- * full stack testing
+ * full stack client testing
    * interceptors
    * handlers
- * imple JUnit Rule setup
- * SOAP fault helper
+ * simple JUnit Rule setup
+ * SOAP-Fault helper
 
 all with the regular advantages of Mockito.
 
