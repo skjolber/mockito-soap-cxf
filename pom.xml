@@ -168,8 +168,8 @@
 				<version>${cxf.version}</version>
 				<executions>
 					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
+						<id>generate-test-sources</id>
+						<phase>generate-test-sources</phase>
 						<configuration>
 							<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
 							<wsdlOptions>
@@ -279,7 +279,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>3.0.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/skjolberg/example/**</exclude>
+                    </excludes>
+                </configuration>				
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -292,7 +297,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>2.10.4</version>
+				<configuration>
+					<excludePackageNames>*example*</excludePackageNames>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
