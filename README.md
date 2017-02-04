@@ -26,7 +26,7 @@ Example dependency config:
 <dependency>
 	<groupId>com.github.skjolber</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<scope>test</scope>
 </dependency>
 ```
@@ -145,9 +145,7 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
- - [1.0.0]: Initial version
+ - [1.0.1]: Improved JAXB helper methods in SoapServiceFault
+ - [1.0.0]: Initial versionn
 
-[Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
-[issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
-[Maven]:                http://maven.apache.org/
-[1.0.0]:		https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.0
+[Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html[issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues[Maven]:                http://maven.apache.org/[1.0.1]:		https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.10
