@@ -8,13 +8,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.MalformedURLException;
+import java.net.ServerSocket;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapFault;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,17 +38,28 @@ import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.CustomerException;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
+import com.github.skjolber.shop.example.v1.ShopCustomerServicePortType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
-@ActiveProfiles("dev1")
-public class BankCustomerServiceTest {
+@ActiveProfiles("dev2")
+public class BankCustomerServiceTest2 {
 
+	public static boolean isFree(int port) {
+		try {
+			new ServerSocket(port).close();
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+
+	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
-	@Rule
-	public SoapServiceRule soap = SoapServiceRule.newInstance();
+	@ClassRule
+	public static SoapEndpointRule soap = SoapEndpointRule.newInstance("myPort");
 
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
@@ -51,11 +68,15 @@ public class BankCustomerServiceTest {
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
 
+	@Value("${shopcustomer.service}")
+	private String shopCustomerServiceAddress;
+
 	/**
 	 * Mock object proxied by SOAP service
 	 * 
 	 */
 	private BankCustomerServicePortType bankServiceMock; 
+	private ShopCustomerServicePortType shopServiceMock; 
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
@@ -65,8 +86,16 @@ public class BankCustomerServiceTest {
 	private BankCustomerService bankCustomerService;
 
 	@Before
-	public void setup() {
+	public void setup() throws Exception {
+		Assert.assertFalse(isFree(new URL(bankCustomerServiceAddress).getPort()));
+
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
+		shopServiceMock = soap.mock(ShopCustomerServicePortType.class, shopCustomerServiceAddress);
+	}
+	
+	@After 
+	public void teardown() {
+		soap.clear();
 	}
 	
 	/**
@@ -78,7 +107,7 @@ public class BankCustomerServiceTest {
 
 	@Test
 	public void processNormalSoapCall() throws Exception {
-
+		
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -167,7 +196,7 @@ public class BankCustomerServiceTest {
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
-
+	
 	@Test
 	public void processValiationException() throws Exception {
 		
@@ -182,10 +211,11 @@ public class BankCustomerServiceTest {
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
 		
-		exception.expect(Exception.class); // unmarshalling error, the client does not accept the document as a request
+		exception.expect(Exception.class);
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 
 	}
+	
 }

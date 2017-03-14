@@ -1,24 +1,21 @@
 package com.skjolberg.mockito.soap;
 
 import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import javax.xml.bind.annotation.XmlElement;
 
-import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.skjolberg.example.spring.soap.v1.BankException;
+import com.github.skjolber.bank.example.v1.BankException;
 
 public class SoapServiceFaultTest {
 

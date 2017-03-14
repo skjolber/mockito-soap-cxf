@@ -8,7 +8,7 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 /**
- * Rule for mocking SOAP endpoints.
+ * Rule for mocking SOAP endpoints. Each individual service requires a seperate port.
  * 
  * @author thomas.skjolberg@gmail.com
  *

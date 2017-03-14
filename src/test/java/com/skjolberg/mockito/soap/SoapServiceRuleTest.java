@@ -1,22 +1,19 @@
 package com.skjolberg.mockito.soap;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.internal.matchers.Contains;
 
-import com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType;
+import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
 
 public class SoapServiceRuleTest {
 

@@ -14,8 +14,6 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-	<context:property-placeholder location="classpath*:properties/dev.properties"/>
-
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	
 	<context:annotation-config/>
@@ -36,7 +34,7 @@
 	 -->
 	
 	<jaxws:client 
-		serviceClass="com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType" 
+		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType" 
 		address="${bankcustomer.service}" id="bankCustomerServiceClient">	
 		
 		<jaxws:inInterceptors>
@@ -47,4 +45,22 @@
 		</jaxws:outInterceptors>		
 	</jaxws:client>
 
+	<jaxws:client 
+		serviceClass="com.github.skjolber.shop.example.v1.ShopCustomerServicePortType" 
+		address="${shopcustomer.service}" id="shopCustomerServiceClient">	
+		
+		<jaxws:inInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outInterceptors>		
+	</jaxws:client>
+
+	<beans profile="dev1">
+		<context:property-placeholder location="classpath*:properties/dev1.properties"/>
+	</beans>
+	<beans profile="dev2">
+		<context:property-placeholder location="classpath*:properties/dev2.properties"/>
+	</beans>
 </beans>

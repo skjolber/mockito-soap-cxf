@@ -32,6 +32,13 @@
 		</license>
 	</licenses>
 
+	<developers>
+		<developer>
+			<name>Thomas Skjølberg</name>
+			<email>thomas.skjolberg@gmail.com</email>
+		</developer>
+	</developers>
+
 	<scm>
 		<connection>scm:git:git@github.com:skjolber/mockito-soap-cxf.git</connection>
 		<developerConnection>scm:git:git@github.com:skjolber/mockito-soap-cxf.git</developerConnection>
@@ -43,13 +50,6 @@
 		<system>GitHub</system>
 		<url>https://github.com/skjolber/mockito-soap-cxf/issues</url>
 	</issueManagement>
-
-	<developers>
-		<developer>
-			<name>Thomas Skjølberg</name>
-			<email>thomas.skjolberg@gmail.com</email>
-		</developer>
-	</developers>
 
 	<dependencies>
 		<dependency>
@@ -176,6 +176,17 @@
 								<wsdlOption>
 									<wsdl>${basedir}/src/test/resources/wsdl/BankCustomerService.wsdl</wsdl>
 									<wsdlLocation>classpath:wsdl/BankCustomerService.wsdl</wsdlLocation>
+									<bindingFiles>
+										<bindingFile>${basedir}/src/test/resources/bindings.xml</bindingFile>
+									</bindingFiles>
+									<extraargs>
+										<extraarg>-exsh</extraarg>
+										<extraarg>true</extraarg>
+									</extraargs>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>${basedir}/src/test/resources/wsdl/ShopCustomerService.wsdl</wsdl>
+									<wsdlLocation>classpath:wsdl/ShopCustomerService.wsdl</wsdlLocation>
 									<bindingFiles>
 										<bindingFile>${basedir}/src/test/resources/bindings.xml</bindingFile>
 									</bindingFiles>
@@ -356,7 +367,6 @@
 		</profile>
 	</profiles>
 
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -367,6 +377,5 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-
 
 </project>

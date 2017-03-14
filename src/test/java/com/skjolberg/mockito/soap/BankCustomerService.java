@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skjolberg.example.spring.soap.v1.BankCustomerServicePortType;
-import com.skjolberg.example.spring.soap.v1.BankException;
-import com.skjolberg.example.spring.soap.v1.BankException_Exception;
-import com.skjolberg.example.spring.soap.v1.BankRequestHeader;
-import com.skjolberg.example.spring.soap.v1.GetAccountsRequest;
-import com.skjolberg.example.spring.soap.v1.GetAccountsResponse;
+import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
+import com.github.skjolber.bank.example.v1.BankException;
+import com.github.skjolber.bank.example.v1.BankException_Exception;
+import com.github.skjolber.bank.example.v1.BankRequestHeader;
+import com.github.skjolber.bank.example.v1.GetAccountsRequest;
+import com.github.skjolber.bank.example.v1.GetAccountsResponse;
 
 /**
  * 

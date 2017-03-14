@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://example.bank.skjolber.github.com/v1"
-	xmlns:tns="http://example.bank.skjolber.github.com/v1" elementFormDefault="qualified">
+	targetNamespace="http://example.shop.skjolber.github.com/v1"
+	xmlns:tns="http://example.shop.skjolber.github.com/v1" elementFormDefault="qualified">
 
 	<annotation>
 		<documentation>Example of web service</documentation>
 	</annotation>
 
-	<element name="getAccountsRequest">
+	<element name="getItemsRequest">
 		<complexType>
 			<sequence>
 				<element name="customerNumber" type="tns:customerNumberType">
                     <annotation>
                         <documentation>
-                            Bank customer identifier
+                            Shop customer identifier
                         </documentation>
                     </annotation>				
 				</element>
@@ -21,13 +21,13 @@
 		</complexType>
 	</element>
 
-	<element name="getAccountsResponse">
+	<element name="getItemsResponse">
 		<complexType>
 			<sequence>
-				<element name="account" type="string" minOccurs="0" maxOccurs="unbounded">
+				<element name="item" type="string" minOccurs="0" maxOccurs="unbounded">
                     <annotation>
                         <documentation>
-                            Bank accounts number for customer 
+                            Shop item number for customer 
                         </documentation>
                     </annotation>				
 				</element>
@@ -35,7 +35,7 @@
 		</complexType>
 	</element>
 
-    <element name="bankException" >
+    <element name="shopException" >
         <complexType>
             <sequence>
                 <element name="code" type="tns:code"/>
@@ -68,7 +68,7 @@
 		</restriction>
 	</simpleType>  	
 
-	<element name="bankRequestHeader">
+	<element name="shopRequestHeader">
 		<complexType>
 			<sequence>
 				<element name="secret" type="string">
