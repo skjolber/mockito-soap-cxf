@@ -44,7 +44,7 @@ Add an exclusion for the `cxf-core` artifact
 ```
 
 # Usage
-If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerServiceTest.java). 
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerServiceSoapEndpointRuleTest.java). 
 
 # Basics
 Create a `SoapServiceRule`
@@ -132,6 +132,34 @@ public void mockService() {
 	serviceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress);
 }
 ```
+
+# Running in parallel
+For use-cases which require test cases to run in parallel, it is possible to mock endpoints on random (free) ports. For the `SoapEndpointRule` methods
+
+```java
+@ClassRule
+public static SoapEndpointRule soap = SoapEndpointRule.newInstance("myPort", "yourPort");
+```
+
+or with port range
+
+```java
+@ClassRule
+public static SoapEndpointRule soap = SoapEndpointRule.newInstance(10000, 30000, "myPort", "yourPort");
+```
+
+there will be reserved two random free ports. Ports numbers can be retrieved using.
+```java
+int myPort = soap.getPort("myPort");
+```
+and
+
+```java
+String myPort = System.getProperty("myPort");
+```
+
+In other words, for property resolvers which take in system properties, the reserved ports are available. See
+[this spring unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointClassRuleTest.java).
 
 # Troubleshooting
 There seems to be an issue with the use of the `-exsh` parameter for passing headers into the mock and schema validation. Rather than supplying the wsdl location, supply the XSD locations to work around the problem until a solution can be found.

@@ -1,7 +1,6 @@
 package com.skjolberg.mockito.soap;
 
 import java.io.StringReader;
-import java.lang.annotation.Annotation;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;

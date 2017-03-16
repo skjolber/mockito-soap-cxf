@@ -15,13 +15,13 @@ import org.junit.rules.ExpectedException;
 
 import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
 
-public class SoapServiceRuleTest {
+public class SoapEndpointRuleTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
 	@Rule
-	public SoapServiceRule soap = SoapServiceRule.newInstance();
+	public SoapEndpointRule soap = SoapEndpointRule.newInstance();
 
 	@Test
 	public void testInvalidParameters1() {
@@ -80,12 +80,19 @@ public class SoapServiceRuleTest {
 		} catch(FileNotFoundException e) {
 			// pass
 		}
+		Assert.assertFalse(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
 		
 		soap.start();
 		
 		String wsdl = IOUtils.toString(url.openStream());
 
 		assertThat(wsdl, containsString("wsdl:definitions"));
+		
+		soap.destroy();
+		
+		// currently, it seems like ports are not freed. TODO
+		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
+		
 	}
 	
 
