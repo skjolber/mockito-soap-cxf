@@ -31,6 +31,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 * @param address address, i.e. http://localhost:1234
 	 * @param wsdlLocation wsdl location, or null
 	 * @param schemaLocations schema locations, or null
+	 * @param <T> mock target - the mock to which server calls are delegated
 	 */
 
 	public abstract <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations);
@@ -40,6 +41,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 * 
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
+	 * @param <T> class to be mocked.
 	 * @return mockito mock - the mock to which server calls are delegated
 	 */
 
@@ -58,6 +60,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param wsdlLocation wsdl location, or null
+	 * @param <T> class to be mocked.
 	 * @return mockito mock - the mock to which server calls are delegated
 	 */
 
@@ -79,6 +82,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param schemaLocations schema locations, or null
+	 * @param <T> class to be mocked.
 	 * @return mockito mock - the mock to which server calls are delegated
 	 */
 

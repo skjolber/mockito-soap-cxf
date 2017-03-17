@@ -176,7 +176,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 	/**
 	 * Get resvered ports.
 	 * 
-	 * @return map of portName and port value; > 1 if a port has been reserved, -1 otherwise
+	 * @return map of portName and port value; &gt; 1 if a port has been reserved, -1 otherwise
 	 */
 	
 	public Map<String, Integer> getPorts() {
@@ -190,8 +190,8 @@ public class SoapEndpointRule extends SoapServiceRule {
 	/**
 	 * Get a specific reserved port by its portName (as passed to the constructor).
 	 * 
-	 * @param name
-	 * @return a port > 1 if a port has been reserved, -1 otherwise
+	 * @param name port name
+	 * @return a port &gt; 1 if a port has been reserved, -1 otherwise
 	 */
 	
 	public int getPort(String name) {

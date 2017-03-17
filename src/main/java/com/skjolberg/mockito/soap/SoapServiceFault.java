@@ -54,7 +54,7 @@ public class SoapServiceFault {
 	 * @return SOAP fault
 	 */
 	
-	public static <T> SoapFault createFault(String detail) {
+	public static SoapFault createFault(String detail) {
 		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -76,7 +76,7 @@ public class SoapServiceFault {
 	 * @return SOAP fault
 	 */
 	
-	public static <T> SoapFault createFault(Object detail) {
+	public static SoapFault createFault(Object detail) {
 		return createFault(detail, null);
 	}
 	
@@ -103,7 +103,7 @@ public class SoapServiceFault {
 		}
 	}
 
-    protected static <T> Marshaller getMarshaller(JAXBContext context, boolean fragment) throws JAXBException {
+    protected static Marshaller getMarshaller(JAXBContext context, boolean fragment) throws JAXBException {
     	Marshaller marshaller = context.createMarshaller();
     	
     	marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
