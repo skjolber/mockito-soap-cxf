@@ -158,7 +158,13 @@ and
 String myPort = System.getProperty("myPort");
 ```
 
-In other words, for property resolvers which take in system-properties, the reserved ports are available. See
+In other words, for property resolvers which include system-properties, the reserved ports are readible available. For example the Spring property expression
+
+```
+http://localhost:${myPort}/selfservice/bank
+```
+
+would effectively point to the mocked webservice at `myPort`. For a more complete example, see
 [this spring unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointClassRuleTest.java).
 
 # Troubleshooting
@@ -173,7 +179,7 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
- - [1.0.2]: Support for port reservations (via SoapEndpointrule).
+ - [1.0.2]: Support for mocking on (random) free ports (via SoapEndpointrule). 
  - 1.0.1: Improved JAXB helper methods in SoapServiceFault
  - 1.0.0: Initial versionn
 
