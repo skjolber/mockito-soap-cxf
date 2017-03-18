@@ -59,6 +59,7 @@ public class BankCustomerSoapEndpointClassRuleTest {
 
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
+	 * For reserved ports also with the port name: http://localhost:${myPort}/selfservice/bank
 	 */
 
 	@Value("${bankcustomer.service}")

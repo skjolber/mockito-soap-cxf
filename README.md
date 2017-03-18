@@ -26,7 +26,7 @@ Example dependency config:
 <dependency>
 	<groupId>com.github.skjolber</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<scope>test</scope>
 </dependency>
 ```
@@ -134,7 +134,7 @@ public void mockService() {
 ```
 
 # Running in parallel
-For use-cases which require test cases to run in parallel, it is possible to mock endpoints on random (free) ports. For the `SoapEndpointRule` methods
+For use-cases which require test-cases to run in parallel, it is possible to mock endpoints on random (free) ports. For the `SoapEndpointRule` methods
 
 ```java
 @ClassRule
@@ -158,7 +158,7 @@ and
 String myPort = System.getProperty("myPort");
 ```
 
-In other words, for property resolvers which take in system properties, the reserved ports are available. See
+In other words, for property resolvers which take in system-properties, the reserved ports are available. See
 [this spring unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointClassRuleTest.java).
 
 # Troubleshooting
@@ -173,10 +173,11 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
- - [1.0.1]: Improved JAXB helper methods in SoapServiceFault
+ - [1.0.2]: Improved JAXB helper methods in SoapServiceFault
+ - 1.0.1: Improved JAXB helper methods in SoapServiceFault
  - 1.0.0: Initial versionn
 
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
 [Maven]:                http://maven.apache.org/
-[1.0.1]:				https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.10
+[1.0.2]:				https://github.com/skjolber/mockito-soap-cxf/releases/tag/mockito-soap-cxf-1.0.2
