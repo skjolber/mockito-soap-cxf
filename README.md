@@ -173,7 +173,7 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
- - [1.0.2]: Improved JAXB helper methods in SoapServiceFault
+ - [1.0.2]: Support for port reservations (via SoapEndpointrule).
  - 1.0.1: Improved JAXB helper methods in SoapServiceFault
  - 1.0.0: Initial versionn
 
