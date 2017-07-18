@@ -29,7 +29,6 @@ import org.apache.cxf.transport.Destination;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.junit.ClassRule;
-import org.mockito.Mockito;
 
 /**
  * Rule for mocking SOAP services using {@linkplain Endpoint}s. Multiple services can run on the same port.
@@ -234,7 +233,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 		return destination;
 	}
 
-	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations) {
+	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
 		if(target == null) {
 			throw new IllegalArgumentException("Expected proxy target");
 		}
@@ -260,10 +259,10 @@ public class SoapEndpointRule extends SoapServiceRule {
 		
 		EndpointImpl endpoint = (EndpointImpl)Provider.provider().createEndpoint(null, serviceInterface);
 
+		Map<String, Object> map = properties != null ? new HashMap<String, Object>(properties) : new HashMap<String, Object>();
+
 		if(wsdlLocation != null || schemaLocations != null) {
-			HashMap<String, Object> properties = new HashMap<String, Object>();
-			properties.put("schema-validation-enabled", true);
-			endpoint.setProperties(properties);
+			map.put("schema-validation-enabled", true);
 			
 			if(wsdlLocation != null) {
 				endpoint.setWsdlLocation(wsdlLocation);
@@ -273,6 +272,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 				endpoint.setSchemaLocations(schemaLocations);
 			}
 		}
+		endpoint.setProperties(map);
 		
 		if(destination != null) {
 			ServerImpl server = endpoint.getServer();
@@ -291,39 +291,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 			}
 		}
 		return null;
-	}
-
-	public <T> T mock(Class<T> port, String address) {
-		// wrap the evaluator mock in proxy
-		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, null, null);
-		
-		return mock;
-	}
-
-	public <T> T mock(Class<T> port, String address, String wsdlLocation) {
-		if(wsdlLocation == null || wsdlLocation.isEmpty()) {
-			throw new IllegalArgumentException("Expected wsdl location");
-		}
-		// wrap the evaluator mock in proxy
-		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, wsdlLocation, null);
-		
-		return mock;
-	}
-
-	public <T> T mock(Class<T> port, String address, List<String> schemaLocations) {
-		if(schemaLocations == null || schemaLocations.isEmpty()) {
-			throw new IllegalArgumentException("Expected schema locations");
-		}
-		// wrap the evaluator mock in proxy
-		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, null, schemaLocations);
-		
-		return mock;
 	}
 
 	protected void before() throws Throwable {

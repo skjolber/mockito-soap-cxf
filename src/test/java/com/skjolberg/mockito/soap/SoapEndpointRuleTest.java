@@ -45,6 +45,34 @@ public class SoapEndpointRuleTest {
 	}
 	
 	@Test
+	public void testInvalidConstructor1() {
+		exception.expect(IllegalArgumentException.class);
+
+		SoapServiceRule.newInstance(-1, 1, new String[]{});
+	}
+
+	@Test
+	public void testInvalidConstructor2() {
+		exception.expect(IllegalArgumentException.class);
+
+		SoapServiceRule.newInstance(2, 1, new String[]{});
+	}
+
+	@Test
+	public void testInvalidConstructor3() {
+		exception.expect(IllegalArgumentException.class);
+
+		SoapServiceRule.newInstance(2, Integer.MAX_VALUE, new String[]{});
+	}
+
+	@Test
+	public void testInvalidConstructor4() {
+		exception.expect(IllegalArgumentException.class);
+
+		SoapServiceRule.newInstance(10000, 10001, new String[]{"a", "b", "c"});
+	}
+
+	@Test
 	public void testWSDL() throws Exception {
 		String address = "http://localhost:12345/service";
 		

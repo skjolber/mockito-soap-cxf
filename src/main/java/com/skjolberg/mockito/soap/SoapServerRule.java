@@ -2,16 +2,13 @@ package com.skjolberg.mockito.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.mockito.Mockito;
 
 /**
  * Rule for mocking SOAP services using @{@linkplain JaxWsServerFactoryBean} to create {@linkplain Server}s. 
@@ -27,9 +24,9 @@ public class SoapServerRule extends SoapServiceRule {
 		return new SoapServerRule();
 	}
 
-	private Map<String, Server> servers = new HashMap();
+	private Map<String, Server> servers = new HashMap<>();
 
-	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations) {
+	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
 		if(target == null) {
 			throw new IllegalArgumentException("Expected proxy target");
 		}
@@ -56,10 +53,10 @@ public class SoapServerRule extends SoapServiceRule {
 		svrFactory.setAddress(address);
 		svrFactory.setServiceBean(serviceInterface);
 
+		Map<String, Object> map = properties != null ? new HashMap<String, Object>(properties) : new HashMap<String, Object>();
+		
 		if(wsdlLocation != null || schemaLocations != null) {
-			HashMap<String, Object> properties = new HashMap<String, Object>();
-			properties.put("schema-validation-enabled", true);
-			svrFactory.setProperties(properties);
+			map.put("schema-validation-enabled", true);
 			
 			if(wsdlLocation != null) {
 				svrFactory.setWsdlLocation(wsdlLocation);
@@ -69,6 +66,7 @@ public class SoapServerRule extends SoapServiceRule {
 				svrFactory.setSchemaLocations(schemaLocations);
 			}
 		}
+		svrFactory.setProperties(map);
 		
 		Server server = svrFactory.create();
 		
