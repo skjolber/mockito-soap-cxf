@@ -24,10 +24,10 @@ Example dependency config:
 
 ```xml
 <dependency>
-	<groupId>com.github.skjolber</groupId>
-	<artifactId>mockito-soap-cxf</artifactId>
-	<version>1.0.3</version>
-	<scope>test</scope>
+    <groupId>com.github.skjolber</groupId>
+    <artifactId>mockito-soap-cxf</artifactId>
+    <version>1.0.3</version>
+    <scope>test</scope>
 </dependency>
 ```
 
@@ -36,10 +36,10 @@ Add an exclusion for the `cxf-core` artifact
 
 ```xml
 <exclusions>
-	<exclusion>
-		<groupId>org.apache.cxf</groupId>
-		<artifactId>cxf-core</artifactId>
-	</exclusion>
+    <exclusion>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-core</artifactId>
+    </exclusion>
 </exclusions>
 ```
 
