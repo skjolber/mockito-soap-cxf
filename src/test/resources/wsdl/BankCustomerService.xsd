@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://example.bank.skjolber.github.com/v1"
-	xmlns:tns="http://example.bank.skjolber.github.com/v1" elementFormDefault="qualified">
+	xmlns:tns="http://example.bank.skjolber.github.com/v1" elementFormDefault="qualified"
+	xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+	>
 
 	<annotation>
 		<documentation>Example of web service</documentation>
@@ -17,6 +19,7 @@
                         </documentation>
                     </annotation>				
 				</element>
+				<element name="certificate" type="base64Binary" xmime:expectedContentTypes="application/octet-stream" minOccurs="0"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -31,6 +34,7 @@
                         </documentation>
                     </annotation>				
 				</element>
+				<element name="certificate" type="base64Binary" xmime:expectedContentTypes="application/octet-stream" minOccurs="0"/>
 			</sequence>
 		</complexType>
 	</element>
