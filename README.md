@@ -44,7 +44,7 @@ Add an exclusion for the `cxf-core` artifact
 ```
 
 # Usage
-If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerServiceSoapEndpointRuleTest.java). 
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointRuleTest.java). 
 
 # Basics
 Create a `SoapServiceRule`
