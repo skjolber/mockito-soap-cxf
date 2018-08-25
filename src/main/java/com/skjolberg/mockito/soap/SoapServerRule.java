@@ -36,12 +36,9 @@ public class SoapServerRule extends SoapServiceRule {
 		if(address == null) {
 			throw new IllegalArgumentException("Expected address");
 		}
-		
-		try {
-			new URL(address);
-		} catch (MalformedURLException e) {
-			throw new IllegalArgumentException("Expected valid address: " + address, e);
-		}
+
+		assertValidAddress(address);
+
 		if(servers.containsKey(address)) {
 			throw new IllegalArgumentException("Server " + address + " already exists");
 		}
@@ -103,10 +100,21 @@ public class SoapServerRule extends SoapServiceRule {
 	public void reset() {
 		for (Entry<String, Server> entry : servers.entrySet()) {
 			entry.getValue().getDestination().shutdown();
-			
+
 			entry.getValue().destroy();
 		}
 		servers.clear();
 	}
 
+	private void assertValidAddress(String address) {
+		if (address != null && address.startsWith("local://")) {
+			return;
+		}
+
+		try {
+			new URL(address);
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("Expected valid address: " + address, e);
+		}
+	}
 }
