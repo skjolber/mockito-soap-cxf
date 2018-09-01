@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.InputStreamDataSource;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +36,6 @@ import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
 import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
-import com.sun.istack.ByteArrayDataSource;
 import static com.skjolberg.mockito.soap.SoapServiceRule.*;
 
 /**
@@ -117,7 +118,7 @@ public class BankCustomerSoapServerRuleMtomTest {
 		accountList.add("5678");
 
 		byte[] payload = new byte[] {0x00, 0x01};
-		DataSource source = new ByteArrayDataSource(payload, "application/octet-stream");
+		DataSource source = new InputStreamDataSource(new ByteArrayInputStream(payload), "application/octet-stream");
 		mockResponse.setCertificate(new DataHandler(source));
 		
 		when(bankServiceMock.getAccounts(any(GetAccountsRequest.class), any(BankRequestHeader.class))).thenReturn(mockResponse);

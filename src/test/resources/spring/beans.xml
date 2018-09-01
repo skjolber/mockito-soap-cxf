@@ -63,4 +63,7 @@
 	<beans profile="dev2">
 		<context:property-placeholder location="classpath*:properties/dev2.properties"/>
 	</beans>
+	<beans profile="dev3">
+		<context:property-placeholder location="classpath*:properties/dev3.properties"/>
+	</beans>
 </beans>
