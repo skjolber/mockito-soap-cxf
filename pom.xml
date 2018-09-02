@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.skjolber</groupId>
 	<artifactId>mockito-soap-cxf</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.4</version>
 	<name>mockito-soap-cxf</name>
 	<description>SOAP web-service mocking utility for CXF</description>
 	<url>https://github.com/skjolber/mockito-soap-cxf</url>
@@ -44,7 +44,7 @@
 		<connection>scm:git:git@github.com:skjolber/mockito-soap-cxf.git</connection>
 		<developerConnection>scm:git:git@github.com:skjolber/mockito-soap-cxf.git</developerConnection>
 		<url>git@github.com:skjolber/mockito-soap-cxf.git</url>
-		<tag>HEAD</tag>
+		<tag>mockito-soap-cxf-1.0.4</tag>
 	</scm>
 
 	<issueManagement>
