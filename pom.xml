@@ -344,6 +344,11 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>3.3.2</version>
+            </plugin>			
 		</plugins>
 	</build>
 
