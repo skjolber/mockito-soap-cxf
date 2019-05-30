@@ -109,7 +109,7 @@ public class SoapEndpointRuleTest {
 		} catch(FileNotFoundException e) {
 			// pass
 		}
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(port));
+		Assert.assertFalse(PortManager.isPortAvailable(port));
 
 		soap.start();
 
@@ -120,7 +120,7 @@ public class SoapEndpointRuleTest {
 
 		soap.destroy();
 
-		Assert.assertTrue(SoapEndpointRule.isPortAvailable(port));
+		Assert.assertTrue(PortManager.isPortAvailable(port));
 	}
 
 }
