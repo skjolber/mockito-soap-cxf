@@ -107,12 +107,11 @@ public class SoapEndpointRule extends SoapServiceRule {
 	}
 
 	protected static boolean isPortAvailable(int port) {
-		try {
-			ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(port, 1, InetAddress.getByName("localhost"));
-			serverSocket.close();
+		try (ServerSocket serverSocket = ServerSocketFactory.getDefault()
+				.createServerSocket(port, 1, InetAddress.getByName("localhost"))) {
+			serverSocket.setReuseAddress(true);
 			return true;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			return false;
 		}
 	}
@@ -306,8 +305,11 @@ public class SoapEndpointRule extends SoapServiceRule {
 	}
 
 	public void destroy() {
-		stop();
-		clear();
+		endpoints.values().forEach(endpoint -> {
+			endpoint.stop();
+			endpoint.getBus().shutdown(true);
+		});
+		endpoints.clear();
 		reservations.forEach(PortReservation::stop);
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.endpoint.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 /**
@@ -72,7 +73,7 @@ public class SoapServerRule extends SoapServiceRule {
 
 	@Override
 	protected void after() {
-		reset();
+		destroy();
 	}
 
 	public void destroy() {
@@ -91,8 +92,8 @@ public class SoapServerRule extends SoapServiceRule {
 
 	public void reset() {
 		servers.values().forEach(server -> {
-			server.getDestination().shutdown();
 			server.destroy();
+			((EndpointImpl)server.getEndpoint()).getBus().shutdown(true);
 		});
 		servers.clear();
 	}
