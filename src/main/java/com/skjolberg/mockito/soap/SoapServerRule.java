@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
@@ -79,23 +78,18 @@ public class SoapServerRule extends SoapServiceRule {
 	}
 
 	public void stop() {
-		for (Entry<String, Server> entry : servers.entrySet()) {
-			entry.getValue().stop();
-		}
+		servers.values().forEach(Server::stop);
 	}
 
 	public void start() {
-		for (Entry<String, Server> entry : servers.entrySet()) {
-			entry.getValue().start();
-		}
+		servers.values().forEach(Server::start);
 	}
 
 	public void reset() {
-		for (Entry<String, Server> entry : servers.entrySet()) {
-			entry.getValue().getDestination().shutdown();
-
-			entry.getValue().destroy();
-		}
+		servers.values().forEach(server -> {
+			server.getDestination().shutdown();
+			server.destroy();
+		});
 		servers.clear();
 	}
 

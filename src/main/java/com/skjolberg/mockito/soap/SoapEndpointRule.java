@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.net.ServerSocketFactory;
@@ -287,10 +286,8 @@ public class SoapEndpointRule extends SoapServiceRule {
 	}
 
 	protected void before() {
-		// reserve ports for all ports
-		for(PortReservation reservation : reservations) {
-			reservation.start();
-		}
+		// reserve all ports
+		reservations.forEach(PortReservation::start);
 	}
 
 	protected void after() {
@@ -301,35 +298,24 @@ public class SoapEndpointRule extends SoapServiceRule {
 	 * Stop and remove endpoints, keeping port reservations.
 	 */
 	public void clear() {
-		for (Entry<String, EndpointImpl> entry : endpoints.entrySet()) {
-			entry.getValue().stop();
-		}
+		endpoints.values().forEach(EndpointImpl::stop);
 		endpoints.clear();
 	}
 
 	public void destroy() {
-		for (Entry<String, EndpointImpl> entry : endpoints.entrySet()) {
-			entry.getValue().getServer().stop();
-			entry.getValue().stop();
-		}
-		for(PortReservation reservation : reservations) {
-			reservation.stop();
-		}
+		stop();
+		clear();
+		reservations.forEach(PortReservation::stop);
 	}
 
 	public void stop() {
-		// stop endpoints
-		for (Entry<String, EndpointImpl> entry : endpoints.entrySet()) {
-			entry.getValue().getServer().stop();
-		}
+		endpoints.values().forEach(endpoint -> endpoint.getServer().stop());
 	}
 
 	@Override
 	public void start() {
 		// republish
-		for (Entry<String, EndpointImpl> entry : endpoints.entrySet()) {
-			entry.getValue().getServer().start();
-		}
+		endpoints.values().forEach(endpoint -> endpoint.getServer().start());
 	}
 
 }
