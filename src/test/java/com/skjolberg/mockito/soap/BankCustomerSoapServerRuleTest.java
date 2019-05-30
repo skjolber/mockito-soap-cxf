@@ -50,19 +50,16 @@ public class BankCustomerSoapServerRuleTest {
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
 	 */
-
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
 
 	/**
 	 * Mock object proxied by SOAP service
-	 *
 	 */
 	private BankCustomerServicePortType bankServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 *
 	 */
 	@Autowired
 	private BankCustomerService bankCustomerService;
@@ -73,15 +70,10 @@ public class BankCustomerSoapServerRuleTest {
 	}
 
 	/**
-	 *
 	 * Webservice call which results in regular response returned to the client.
-	 *
 	 */
-
-
 	@Test
 	public void processNormalSoapCall() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -110,14 +102,10 @@ public class BankCustomerSoapServerRuleTest {
 	}
 
 	/**
-	 *
 	 * Webservice call which results in soap fault being returned to the client.
-	 *
 	 */
-
 	@Test
 	public void processSoapCallWithException1() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -146,7 +134,6 @@ public class BankCustomerSoapServerRuleTest {
 
 	@Test
 	public void processSoapCallWithException2() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -173,7 +160,6 @@ public class BankCustomerSoapServerRuleTest {
 
 	@Test
 	public void processValidationException() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -189,6 +175,5 @@ public class BankCustomerSoapServerRuleTest {
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
-
 	}
 }

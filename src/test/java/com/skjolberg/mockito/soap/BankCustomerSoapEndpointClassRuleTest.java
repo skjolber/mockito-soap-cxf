@@ -42,9 +42,7 @@ import com.github.skjolber.shop.example.v1.ShopCustomerServicePortType;
 
 /**
  * Test with port reservations (as a {@linkplain ClassRule}.
- *
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -61,7 +59,6 @@ public class BankCustomerSoapEndpointClassRuleTest {
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
 	 * For reserved ports also with the port name: http://localhost:${myPort}/selfservice/bank
 	 */
-
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
 
@@ -70,14 +67,12 @@ public class BankCustomerSoapEndpointClassRuleTest {
 
 	/**
 	 * Mock object proxied by SOAP service
-	 *
 	 */
 	private BankCustomerServicePortType bankServiceMock;
 	private ShopCustomerServicePortType shopServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 *
 	 */
 	@Autowired
 	private BankCustomerService bankCustomerService;
@@ -98,15 +93,10 @@ public class BankCustomerSoapEndpointClassRuleTest {
 	}
 
 	/**
-	 *
 	 * Webservice call which results in regular response returned to the client.
-	 *
 	 */
-
-
 	@Test
 	public void processNormalSoapCall() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -135,14 +125,10 @@ public class BankCustomerSoapEndpointClassRuleTest {
 	}
 
 	/**
-	 *
 	 * Webservice call which results in soap fault being returned to the client.
-	 *
 	 */
-
 	@Test
 	public void processSoapCallWithException1() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -171,7 +157,6 @@ public class BankCustomerSoapEndpointClassRuleTest {
 
 	@Test
 	public void processSoapCallWithException2() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -198,7 +183,6 @@ public class BankCustomerSoapEndpointClassRuleTest {
 
 	@Test
 	public void processValidationException() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -214,7 +198,6 @@ public class BankCustomerSoapEndpointClassRuleTest {
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
-
 	}
 
 }

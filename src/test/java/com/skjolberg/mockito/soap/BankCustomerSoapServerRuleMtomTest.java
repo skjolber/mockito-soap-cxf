@@ -39,11 +39,8 @@ import com.github.skjolber.bank.example.v1.GetAccountsResponse;
 import static com.skjolberg.mockito.soap.SoapServiceRule.*;
 
 /**
- *
  * Test use of MTOM (binary attachments).
- *
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/mtom.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
@@ -59,24 +56,20 @@ public class BankCustomerSoapServerRuleMtomTest {
 	/**
 	 * Endpoint addresses (full url), typically pointing to localhost for unit testing, remote host otherwise.
 	 */
-
 	@Value("${bankcustomer1.service}")
 	private String bankCustomerServiceAddress1;
-
 
 	@Value("${bankcustomer2.service}")
 	private String bankCustomerServiceAddress2;
 
 	/**
 	 * Mock objects proxied by SOAP service
-	 *
 	 */
 	private BankCustomerServicePortType bankServiceMock1;
 	private BankCustomerServicePortType bankServiceMock2;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 *
 	 */
 	@Autowired
 	@Qualifier("bankCustomerServiceClient1")
@@ -95,7 +88,6 @@ public class BankCustomerSoapServerRuleMtomTest {
 	/**
 	 * Base64binary field embedded within the XML document
 	 */
-
 	@Test
 	public void processNormalSoapCallWithoutMTOM() throws Exception {
 		processCall(bankServiceMock1, port1);
@@ -104,7 +96,6 @@ public class BankCustomerSoapServerRuleMtomTest {
 	/**
 	 * Base64binary field referenced in the XML document, transported as multipart binary.
 	 */
-
 	@Test
 	public void processNormalSoapCallWithMTOM() throws Exception {
 		processCall(bankServiceMock2, port2);

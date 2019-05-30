@@ -25,7 +25,6 @@ public class SoapServiceFault {
 	 *
 	 * @return SOAP fault
 	 */
-
 	public static SoapFault createFault() {
 		QName qName = SoapFault.FAULT_CODE_SERVER;
 		return new SoapFault("message", qName);
@@ -37,7 +36,6 @@ public class SoapServiceFault {
 	 * @param detail fault detail
 	 * @return SOAP fault
 	 */
-
 	public static SoapFault createFault(Node detail) {
 		QName qName = SoapFault.FAULT_CODE_SERVER;
 		SoapFault fault = new SoapFault("message", qName);
@@ -52,9 +50,7 @@ public class SoapServiceFault {
 	 * @param detail XML string fault detail
 	 * @return SOAP fault
 	 */
-
 	public static SoapFault createFault(String detail) {
-
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
@@ -65,7 +61,6 @@ public class SoapServiceFault {
 		} catch(Exception e) {
 			throw new IllegalArgumentException(detail, e);
 		}
-
 	}
 
 	/**
@@ -74,7 +69,6 @@ public class SoapServiceFault {
 	 * @param detail JAXB-serializable detail
 	 * @return SOAP fault
 	 */
-
 	public static SoapFault createFault(Object detail) {
 		return createFault(detail, null);
 	}

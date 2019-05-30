@@ -15,9 +15,7 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
  * Each individual service requires a separate port.
  *
  * @author thomas.skjolberg@gmail.com
- *
  */
-
 public class SoapServerRule extends SoapServiceRule {
 
 	public static SoapServerRule newInstance() {
@@ -70,7 +68,6 @@ public class SoapServerRule extends SoapServiceRule {
 		servers.put(address, server);
 
 		server.start();
-
 	}
 
 	protected void after() {

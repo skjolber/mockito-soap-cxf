@@ -7,7 +7,6 @@ import java.lang.reflect.Proxy;
 /**
  * Utility class to wrap the webservice implementation in a mock.
  */
-
 public class SoapServiceProxy implements InvocationHandler {
 	private Object obj;
 

@@ -36,9 +36,7 @@ import org.junit.ClassRule;
  * Resulting reserved ports are set as system properties to port names provided by the caller.
  *
  * @author thomas.skjolberg@gmail.com
- *
  */
-
 public class SoapEndpointRule extends SoapServiceRule {
 
 	private static final int PORT_RANGE_MAX = 65535;
@@ -93,7 +91,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 				}
 			}
 			throw new RuntimeException("Unable to reserve port for " + propertyName);
-
 		}
 
 		public Destination getDestination() {
@@ -177,7 +174,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 	 *
 	 * @return map of portName and port value; &gt; 1 if a port has been reserved, -1 otherwise
 	 */
-
 	public Map<String, Integer> getPorts() {
 		HashMap<String, Integer> ports = new HashMap<>();
 		for (PortReservation portReservation : reservations) {
@@ -192,7 +188,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 	 * @param name port name
 	 * @return a port &gt; 1 if a port has been reserved, -1 otherwise
 	 */
-
 	public int getPort(String name) {
 		for (PortReservation portReservation : reservations) {
 			if(name.equals(portReservation.getPropertyName())) {
@@ -202,7 +197,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 		throw new IllegalArgumentException("No reserved port for '" + name + "'.");
 	}
 
-
 	/**
 	 * Attempt to reserve a port by starting a server. The server
 	 *
@@ -211,7 +205,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 	 * @throws IOException
 	 * @throws EndpointException
 	 */
-
 	private Destination reservePort(int port) throws IOException, EndpointException {
 		JaxWsServiceFactoryBean jaxWsServiceFactoryBean = new JaxWsServiceFactoryBean();
 
@@ -306,9 +299,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 	/**
 	 * Stop and remove endpoints, keeping port reservations.
-	 *
 	 */
-
 	public void clear() {
 		for (Entry<String, EndpointImpl> entry : endpoints.entrySet()) {
 			entry.getValue().stop();

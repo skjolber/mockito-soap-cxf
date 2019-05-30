@@ -62,7 +62,6 @@ public class SoapServerRuleTest {
 	 *
 	 * @throws Exception
 	 */
-
 	@Test
 	public void testStartStop() throws Exception {
 		String address1 = "http://localhost:12346/service1";
@@ -108,6 +107,5 @@ public class SoapServerRuleTest {
 		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address1).getPort()));
 		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address2).getPort()));
 	}
-
 
 }

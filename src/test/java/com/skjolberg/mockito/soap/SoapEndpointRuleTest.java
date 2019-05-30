@@ -90,7 +90,6 @@ public class SoapEndpointRuleTest {
 	 *
 	 * @throws Exception
 	 */
-
 	@Test
 	public void testEndpointStartStop() throws Exception {
 		String address = "http://localhost:12345/service";
@@ -120,8 +119,6 @@ public class SoapEndpointRuleTest {
 
 		// currently, it seems like ports are not freed. TODO
 		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
-
 	}
-
 
 }
