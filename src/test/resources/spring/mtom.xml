@@ -16,9 +16,9 @@
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
-	<bean class="org.apache.cxf.interceptor.LoggingInInterceptor" id="logInInterceptor"/>
+	<bean class="org.apache.cxf.ext.logging.LoggingInInterceptor" id="logInInterceptor"/>
 	
-	<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" id="logOutInterceptor"/>
+	<bean class="org.apache.cxf.ext.logging.LoggingOutInterceptor" id="logOutInterceptor"/>
 	
 	<jaxws:client 
 		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType" 
