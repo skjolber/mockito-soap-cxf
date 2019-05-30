@@ -19,7 +19,7 @@ public class SoapEndpointRuleTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	
+
 	@Rule
 	public SoapEndpointRule soap = SoapEndpointRule.newInstance();
 
@@ -29,7 +29,7 @@ public class SoapEndpointRuleTest {
 
 		soap.mock(BankCustomerServicePortType.class, null);
 	}
-	
+
 	@Test
 	public void testInvalidParameters2() {
 		exception.expect(IllegalArgumentException.class);
@@ -43,7 +43,7 @@ public class SoapEndpointRuleTest {
 
 		soap.mock(BankCustomerServicePortType.class, "http://localhost:12345", "");
 	}
-	
+
 	@Test
 	public void testInvalidConstructor1() {
 		exception.expect(IllegalArgumentException.class);
@@ -75,53 +75,53 @@ public class SoapEndpointRuleTest {
 	@Test
 	public void testWSDL() throws Exception {
 		String address = "http://localhost:12345/service";
-		
+
 		BankCustomerServicePortType mock = soap.mock(BankCustomerServicePortType.class, address);
-		
+
 		URL url = new URL(address + "?wsdl");
-		
+
 		String wsdl = IOUtils.toString(url.openStream());
 
 		assertThat(wsdl, containsString("wsdl:definitions"));
 	}
-	
+
 	/**
 	 * Test that stop and (re)start works - simulate service offline down.
-	 * 
+	 *
 	 * @throws Exception
 	 */
-	
+
 	@Test
 	public void testEndpointStartStop() throws Exception {
 		String address = "http://localhost:12345/service";
-		
+
 		soap.mock(BankCustomerServicePortType.class, address);
-		
+
 		URL url = new URL(address + "?wsdl");
-		
+
 		soap.stop();
-		
+
 		try {
 			url.openStream();
-			
+
 			Assert.fail();
 		} catch(FileNotFoundException e) {
 			// pass
 		}
 		Assert.assertFalse(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
-		
+
 		soap.start();
-		
+
 		String wsdl = IOUtils.toString(url.openStream());
 
 		assertThat(wsdl, containsString("wsdl:definitions"));
-		
+
 		soap.destroy();
-		
+
 		// currently, it seems like ports are not freed. TODO
 		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
-		
+
 	}
-	
+
 
 }

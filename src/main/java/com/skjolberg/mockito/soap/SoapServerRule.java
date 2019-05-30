@@ -11,9 +11,9 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 /**
- * Rule for mocking SOAP services using @{@linkplain JaxWsServerFactoryBean} to create {@linkplain Server}s. 
+ * Rule for mocking SOAP services using @{@linkplain JaxWsServerFactoryBean} to create {@linkplain Server}s.
  * Each individual service requires a separate port.
- * 
+ *
  * @author thomas.skjolberg@gmail.com
  *
  */
@@ -42,7 +42,7 @@ public class SoapServerRule extends SoapServiceRule {
 		if(servers.containsKey(address)) {
 			throw new IllegalArgumentException("Server " + address + " already exists");
 		}
-		
+
 		T serviceInterface = SoapServiceProxy.newInstance(target);
 
 		JaxWsServerFactoryBean svrFactory = new JaxWsServerFactoryBean();
@@ -51,26 +51,26 @@ public class SoapServerRule extends SoapServiceRule {
 		svrFactory.setServiceBean(serviceInterface);
 
 		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
-		
+
 		if(wsdlLocation != null || schemaLocations != null) {
 			map.put("schema-validation-enabled", true);
-			
+
 			if(wsdlLocation != null) {
 				svrFactory.setWsdlLocation(wsdlLocation);
 			}
-			
+
 			if(schemaLocations != null) {
 				svrFactory.setSchemaLocations(schemaLocations);
 			}
 		}
 		svrFactory.setProperties(map);
-		
+
 		Server server = svrFactory.create();
-		
+
 		servers.put(address, server);
-		
+
 		server.start();
-		
+
 	}
 
 	protected void after() {

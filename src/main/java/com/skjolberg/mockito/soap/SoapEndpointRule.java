@@ -32,15 +32,15 @@ import org.junit.ClassRule;
 
 /**
  * Rule for mocking SOAP services using {@linkplain Endpoint}s. Multiple services can run on the same port.
- * If used as a {@linkplain ClassRule}, the rule can be used to reserve random free ports. 
+ * If used as a {@linkplain ClassRule}, the rule can be used to reserve random free ports.
  * Resulting reserved ports are set as system properties to port names provided by the caller.
- * 
+ *
  * @author thomas.skjolberg@gmail.com
  *
  */
 
 public class SoapEndpointRule extends SoapServiceRule {
-	
+
 	private static final int PORT_RANGE_MAX = 65535;
 	private static final int PORT_RANGE_START = 1024+1;
 	private static final int PORT_RANGE_END = PORT_RANGE_MAX;
@@ -52,20 +52,20 @@ public class SoapEndpointRule extends SoapServiceRule {
 		private final String propertyName;
 		private Destination destination;
 		private int port = -1;
-		
+
 		public void reserved(int port, Destination destination) {
 			this.port = port;
 			this.destination = destination;
-			
+
 			System.setProperty(propertyName, Integer.toString(port));
 		}
-		
+
 		public void stop() {
 			if(destination != null) {
 				destination.shutdown();
-				
+
 				System.clearProperty(propertyName);
-				
+
 				this.port = -1;
 			}
 		}
@@ -74,18 +74,18 @@ public class SoapEndpointRule extends SoapServiceRule {
 			// systematically try ports in range
 			// starting at random offset
 			int portRange = portRangeEnd - portRangeStart + 1;
-			
+
 			int offset = new Random().nextInt(portRange);
 
 			for(int i = 0; i < portRange; i++) {
 				try {
 					int candidatePort = portRangeStart + (offset + portRange) % portRange;
-					
+
 					if(isPortAvailable(candidatePort)) {
 						Destination destination = reservePort(candidatePort); // port might now be taken
-						
+
 						reserved(candidatePort, destination);
-						
+
 						return;
 					}
 				} catch(Exception e) {
@@ -93,7 +93,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 				}
 			}
 			throw new RuntimeException("Unable to reserve port for " + propertyName);
-			
+
 		}
 
 		public Destination getDestination() {
@@ -107,9 +107,9 @@ public class SoapEndpointRule extends SoapServiceRule {
 		public String getPropertyName() {
 			return propertyName;
 		}
-		
-	}   
-	
+
+	}
+
 	protected static boolean isPortAvailable(int port) {
 		try {
 			ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(port, 1, InetAddress.getByName("localhost"));
@@ -120,11 +120,11 @@ public class SoapEndpointRule extends SoapServiceRule {
 			return false;
 		}
 	}
-	
+
 	public static SoapEndpointRule newInstance() {
 		return new SoapEndpointRule();
 	}
-	
+
 	public static SoapEndpointRule newInstance(String ... portNames) {
 		return new SoapEndpointRule(portNames);
 	}
@@ -139,15 +139,15 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 	private final int portRangeStart;
 	private final int portRangeEnd;
-	
+
 	public SoapEndpointRule() {
 		this(PORT_RANGE_START, PORT_RANGE_END);
 	}
-	
+
 	public SoapEndpointRule(String ... portNames) {
 		this(PORT_RANGE_START, PORT_RANGE_END, portNames);
 	}
-	
+
 	public SoapEndpointRule(int portRangeStart, int portRangeEnd, String ... portNames) {
 		if(portRangeStart <= 0) {
 			throw new IllegalArgumentException("Port range start must be greater than 0.");
@@ -164,20 +164,20 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 		this.portRangeStart = portRangeStart;
 		this.portRangeEnd = portRangeEnd;
-		
+
 		if(portNames != null) {
 			for(String portName : portNames) {
 				reservations.add(new PortReservation(portName));
 			}
 		}
 	}
-	
+
 	/**
 	 * Get reserved ports.
-	 * 
+	 *
 	 * @return map of portName and port value; &gt; 1 if a port has been reserved, -1 otherwise
 	 */
-	
+
 	public Map<String, Integer> getPorts() {
 		HashMap<String, Integer> ports = new HashMap<>();
 		for (PortReservation portReservation : reservations) {
@@ -185,14 +185,14 @@ public class SoapEndpointRule extends SoapServiceRule {
 		}
 		return ports;
 	}
-	
+
 	/**
 	 * Get a specific reserved port by its portName (as passed to the constructor).
-	 * 
+	 *
 	 * @param name port name
 	 * @return a port &gt; 1 if a port has been reserved, -1 otherwise
 	 */
-	
+
 	public int getPort(String name) {
 		for (PortReservation portReservation : reservations) {
 			if(name.equals(portReservation.getPropertyName())) {
@@ -201,11 +201,11 @@ public class SoapEndpointRule extends SoapServiceRule {
 		}
 		throw new IllegalArgumentException("No reserved port for '" + name + "'.");
 	}
-	
-	
+
+
 	/**
-	 * Attempt to reserve a port by starting a server. The server 
-	 * 
+	 * Attempt to reserve a port by starting a server. The server
+	 *
 	 * @param port port to reserve
 	 * @return destination if successful
 	 * @throws IOException
@@ -214,20 +214,20 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 	private Destination reservePort(int port) throws IOException, EndpointException {
 		JaxWsServiceFactoryBean jaxWsServiceFactoryBean = new JaxWsServiceFactoryBean();
-		
+
 		JaxWsServerFactoryBean serverFactoryBean = new JaxWsServerFactoryBean(jaxWsServiceFactoryBean);
 		serverFactoryBean.setAddress("http://localhost:" + port);
-		
+
 		Bus bus = serverFactoryBean.getBus();
 		DestinationFactory destinationFactory = bus.getExtension(DestinationFactoryManager.class).getDestinationFactoryForUri(serverFactoryBean.getAddress());
-		
+
 		EndpointInfo ei = new EndpointInfo(null, Integer.toString(port));
 		ei.setAddress(serverFactoryBean.getAddress());
-		
+
 		Destination destination = destinationFactory.getDestination(ei, serverFactoryBean.getBus());
-		
+
 		ServiceImpl serviceImpl = new ServiceImpl();
-		
+
 		org.apache.cxf.endpoint.Endpoint endpoint = new org.apache.cxf.endpoint.EndpointImpl(bus, serviceImpl, ei);
 		destination.setMessageObserver(new ChainInitiationObserver(endpoint , bus));
 		return destination;
@@ -252,35 +252,35 @@ public class SoapEndpointRule extends SoapServiceRule {
 		if(endpoints.containsKey(address)) {
 			throw new IllegalArgumentException("Endpoint " + address + " already exists");
 		}
-		
+
 		T serviceInterface = SoapServiceProxy.newInstance(target);
 
 		Destination destination = getDestination(url.getPort());
-		
+
 		EndpointImpl endpoint = (EndpointImpl)Provider.provider().createEndpoint(null, serviceInterface);
 
 		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
 
 		if(wsdlLocation != null || schemaLocations != null) {
 			map.put("schema-validation-enabled", true);
-			
+
 			if(wsdlLocation != null) {
 				endpoint.setWsdlLocation(wsdlLocation);
 			}
-			
+
 			if(schemaLocations != null) {
 				endpoint.setSchemaLocations(schemaLocations);
 			}
 		}
 		endpoint.setProperties(map);
-		
+
 		if(destination != null) {
 			ServerImpl server = endpoint.getServer();
 			server.setDestination(destination);
 		}
-		
+
 		endpoint.publish(address);
-		
+
 		endpoints.put(address, endpoint);
 	}
 
@@ -294,7 +294,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 	}
 
 	protected void before() {
-		// reserve ports for all ports 
+		// reserve ports for all ports
 		for(PortReservation reservation : reservations) {
 			reservation.start();
 		}
@@ -303,10 +303,10 @@ public class SoapEndpointRule extends SoapServiceRule {
 	protected void after() {
 		destroy();
 	}
-	
+
 	/**
 	 * Stop and remove endpoints, keeping port reservations.
-	 * 
+	 *
 	 */
 
 	public void clear() {
@@ -335,7 +335,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 	@Override
 	public void start() {
-		// republish 
+		// republish
 		for (Entry<String, EndpointImpl> entry : endpoints.entrySet()) {
 			entry.getValue().getServer().start();
 		}

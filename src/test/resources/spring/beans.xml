@@ -15,46 +15,46 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	
+
 	<context:annotation-config/>
 
 	<context:component-scan base-package="com.skjolberg.mockito.soap"/>
-	
+
 	<bean class="org.apache.cxf.ext.logging.LoggingInInterceptor" id="logInInterceptor">
 		<property name="prettyLogging" value="${cxf.logging.prettyprint}" />
 	</bean>
-	
+
 	<bean class="org.apache.cxf.ext.logging.LoggingOutInterceptor" id="logOutInterceptor">
 		<property name="prettyLogging" value="${cxf.logging.prettyprint}" />
 	</bean>
-	
-	<!-- 
+
+	<!--
 		Notice that interceptors are added to the client, not the bus. if added to the bus
 		there will be duplicate log entries (both client and server).
-	 -->
-	
-	<jaxws:client 
-		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType" 
-		address="${bankcustomer.service}" id="bankCustomerServiceClient">	
-		
+	-->
+
+	<jaxws:client
+		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType"
+		address="${bankcustomer.service}" id="bankCustomerServiceClient">
+
 		<jaxws:inInterceptors>
 			<ref bean="logInInterceptor" />
 		</jaxws:inInterceptors>
 		<jaxws:outInterceptors>
 			<ref bean="logOutInterceptor" />
-		</jaxws:outInterceptors>		
+		</jaxws:outInterceptors>
 	</jaxws:client>
 
-	<jaxws:client 
-		serviceClass="com.github.skjolber.shop.example.v1.ShopCustomerServicePortType" 
-		address="${shopcustomer.service}" id="shopCustomerServiceClient">	
-		
+	<jaxws:client
+		serviceClass="com.github.skjolber.shop.example.v1.ShopCustomerServicePortType"
+		address="${shopcustomer.service}" id="shopCustomerServiceClient">
+
 		<jaxws:inInterceptors>
 			<ref bean="logInInterceptor" />
 		</jaxws:inInterceptors>
 		<jaxws:outInterceptors>
 			<ref bean="logOutInterceptor" />
-		</jaxws:outInterceptors>		
+		</jaxws:outInterceptors>
 	</jaxws:client>
 
 	<beans profile="dev1">

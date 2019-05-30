@@ -13,11 +13,11 @@
 		<complexType>
 			<sequence>
 				<element name="customerNumber" type="tns:customerNumberType">
-                    <annotation>
-                        <documentation>
-                            Bank customer identifier
-                        </documentation>
-                    </annotation>				
+					<annotation>
+						<documentation>
+							Bank customer identifier
+						</documentation>
+					</annotation>
 				</element>
 				<element name="certificate" type="base64Binary" xmime:expectedContentTypes="application/octet-stream" minOccurs="0"/>
 			</sequence>
@@ -28,31 +28,31 @@
 		<complexType>
 			<sequence>
 				<element name="account" type="string" minOccurs="0" maxOccurs="unbounded">
-                    <annotation>
-                        <documentation>
-                            Bank accounts number for customer 
-                        </documentation>
-                    </annotation>				
+					<annotation>
+						<documentation>
+							Bank accounts number for customer
+						</documentation>
+					</annotation>
 				</element>
 				<element name="certificate" type="base64Binary" xmime:expectedContentTypes="application/octet-stream" minOccurs="0"/>
 			</sequence>
 		</complexType>
 	</element>
 
-    <element name="bankException" >
-        <complexType>
-            <sequence>
-                <element name="code" type="tns:code"/>
-                <element name="message" type="string"/>
-            </sequence>
-        </complexType>
-    </element>
+	<element name="bankException" >
+		<complexType>
+			<sequence>
+				<element name="code" type="tns:code"/>
+				<element name="message" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
 
-    <complexType name="customerException">
-        <sequence>
-            <element name="status" type="string"/>
-        </sequence>
-    </complexType>
+	<complexType name="customerException">
+		<sequence>
+			<element name="status" type="string"/>
+		</sequence>
+	</complexType>
 
 	<simpleType name="code">
 		<annotation>
@@ -61,8 +61,8 @@
 		<restriction base="string">
 			<pattern value="[a-z]+" />
 		</restriction>
-	</simpleType>    
-	
+	</simpleType>
+
 	<simpleType name="customerNumberType">
 		<annotation>
 			<documentation>Trivial code types so to easily break validation in examples</documentation>
@@ -70,17 +70,17 @@
 		<restriction base="string">
 			<pattern value="[0-9]+" />
 		</restriction>
-	</simpleType>  	
+	</simpleType>
 
 	<element name="bankRequestHeader">
 		<complexType>
 			<sequence>
 				<element name="secret" type="string">
-                    <annotation>
-                        <documentation>
-                            Secret token 
-                        </documentation>
-                    </annotation>				
+					<annotation>
+						<documentation>
+							Secret token
+						</documentation>
+					</annotation>
 				</element>
 			</sequence>
 		</complexType>

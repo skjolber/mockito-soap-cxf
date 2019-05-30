@@ -10,12 +10,12 @@
 			<level>DEBUG</level>
 		</filter>
 	</appender>
-    
+
 	<logger name="com.skjolberg.example.spring" additivity="false">
-	    <level value="DEBUG" />
+		<level value="DEBUG" />
 		<appender-ref ref="consoleAppender" />
 	</logger>
- 
+
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="consoleAppender" />

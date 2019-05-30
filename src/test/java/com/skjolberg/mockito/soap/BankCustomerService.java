@@ -13,9 +13,9 @@ import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
 
 /**
- * 
+ *
  * Some kind of service bean which forwards calls to the webservice using the webservice client.
- * 
+ *
  * @author thomas
  *
  */
@@ -34,8 +34,8 @@ public class BankCustomerService {
 
 	public GetAccountsResponse getAccounts(String customerNumber, String secret) throws Exception {
 
-		logger.info("Get accounts for {} with secret {}", customerNumber, secret) ;
-		
+		logger.info("Get accounts for {} with secret {}", customerNumber, secret);
+
 		GetAccountsRequest request = new GetAccountsRequest();
 		request.setCustomerNumber(customerNumber);
 
@@ -46,9 +46,9 @@ public class BankCustomerService {
 		} catch(BankException_Exception e) {
 
 			BankException faultInfo = e.getFaultInfo();
-			
+
 			logger.warn("Problem getting accounts: " + faultInfo.getCode() + ": " + faultInfo.getMessage());
-			
+
 			throw new Exception("unable to recover", e);
 		}
 

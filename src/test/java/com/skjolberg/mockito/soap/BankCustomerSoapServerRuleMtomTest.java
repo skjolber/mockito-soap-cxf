@@ -39,9 +39,9 @@ import com.github.skjolber.bank.example.v1.GetAccountsResponse;
 import static com.skjolberg.mockito.soap.SoapServiceRule.*;
 
 /**
- * 
+ *
  * Test use of MTOM (binary attachments).
- * 
+ *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,20 +63,20 @@ public class BankCustomerSoapServerRuleMtomTest {
 	@Value("${bankcustomer1.service}")
 	private String bankCustomerServiceAddress1;
 
-	
+
 	@Value("${bankcustomer2.service}")
 	private String bankCustomerServiceAddress2;
 
 	/**
 	 * Mock objects proxied by SOAP service
-	 * 
+	 *
 	 */
-	private BankCustomerServicePortType bankServiceMock1; 
-	private BankCustomerServicePortType bankServiceMock2; 
+	private BankCustomerServicePortType bankServiceMock1;
+	private BankCustomerServicePortType bankServiceMock2;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 * 
+	 *
 	 */
 	@Autowired
 	@Qualifier("bankCustomerServiceClient1")
@@ -100,7 +100,7 @@ public class BankCustomerSoapServerRuleMtomTest {
 	public void processNormalSoapCallWithoutMTOM() throws Exception {
 		processCall(bankServiceMock1, port1);
 	}
-	
+
 	/**
 	 * Base64binary field referenced in the XML document, transported as multipart binary.
 	 */
@@ -120,7 +120,7 @@ public class BankCustomerSoapServerRuleMtomTest {
 		byte[] payload = new byte[] {0x00, 0x01};
 		DataSource source = new InputStreamDataSource(new ByteArrayInputStream(payload), "application/octet-stream");
 		mockResponse.setCertificate(new DataHandler(source));
-		
+
 		when(bankServiceMock.getAccounts(any(GetAccountsRequest.class), any(BankRequestHeader.class))).thenReturn(mockResponse);
 
 		String customerNumber = "123456789"; // must be all numbers, if not schema validation fails
@@ -139,11 +139,11 @@ public class BankCustomerSoapServerRuleMtomTest {
 		// get data
 		byte[] result = IOUtils.toByteArray(accounts.getCertificate().getInputStream());
 		assertArrayEquals(result, payload);
-		
+
 		BankRequestHeader header = argument2.getValue();
 		assertThat(header.getSecret(), is(secret));
 
 		assertThat(accounts.getAccount(), is(accountList));
 	}
-	
+
 }

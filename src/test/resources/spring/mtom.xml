@@ -17,11 +17,11 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
 	<bean class="org.apache.cxf.ext.logging.LoggingInInterceptor" id="logInInterceptor"/>
-	
+
 	<bean class="org.apache.cxf.ext.logging.LoggingOutInterceptor" id="logOutInterceptor"/>
-	
-	<jaxws:client 
-		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType" 
+
+	<jaxws:client
+		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType"
 		address="${bankcustomer1.service}" id="bankCustomerServiceClient1"
 		>
 		<jaxws:inInterceptors>
@@ -32,8 +32,8 @@
 		</jaxws:outInterceptors>
 	</jaxws:client>
 
-	<jaxws:client 
-		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType" 
+	<jaxws:client
+		serviceClass="com.github.skjolber.bank.example.v1.BankCustomerServicePortType"
 		address="${bankcustomer2.service}" id="bankCustomerServiceClient2"
 		>
 		<jaxws:inInterceptors>

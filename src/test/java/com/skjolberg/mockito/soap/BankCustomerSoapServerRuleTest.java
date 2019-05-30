@@ -56,13 +56,13 @@ public class BankCustomerSoapServerRuleTest {
 
 	/**
 	 * Mock object proxied by SOAP service
-	 * 
+	 *
 	 */
-	private BankCustomerServicePortType bankServiceMock; 
+	private BankCustomerServicePortType bankServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 * 
+	 *
 	 */
 	@Autowired
 	private BankCustomerService bankCustomerService;
@@ -71,11 +71,11 @@ public class BankCustomerSoapServerRuleTest {
 	public void setup() {
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Webservice call which results in regular response returned to the client.
-	 * 
+	 *
 	 */
 
 
@@ -108,11 +108,11 @@ public class BankCustomerSoapServerRuleTest {
 
 		assertThat(accounts.getAccount(), is(accountList));
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Webservice call which results in soap fault being returned to the client.
-	 * 
+	 *
 	 */
 
 	@Test
@@ -139,11 +139,11 @@ public class BankCustomerSoapServerRuleTest {
 		String secret = "abc";
 
 		exception.expect(Exception.class);
-		 
+
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
-	
+
 	@Test
 	public void processSoapCallWithException2() throws Exception {
 
@@ -166,14 +166,14 @@ public class BankCustomerSoapServerRuleTest {
 		String secret = "abc";
 
 		exception.expect(Exception.class);
-		 
+
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
 
 	@Test
 	public void processValidationException() throws Exception {
-		
+
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -184,7 +184,7 @@ public class BankCustomerSoapServerRuleTest {
 
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
-		
+
 		exception.expect(Exception.class); // unmarshalling error, the client does not accept the document as a request
 
 		// actually do something

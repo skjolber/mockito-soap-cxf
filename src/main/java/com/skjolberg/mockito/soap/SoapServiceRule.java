@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Rule for mocking SOAP services. 
- * 
+ * Rule for mocking SOAP services.
+ *
  * @author thomas.skjolberg@gmail.com
  *
  */
@@ -24,10 +24,10 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	public static SoapEndpointRule newInstance(int portRangeStart, int portRangeEnd, String ... portNames) {
 		return new SoapEndpointRule(portRangeStart, portRangeEnd, portNames);
 	}
-	
+
 	/**
 	 * Create (and start) endpoint.
-	 * 
+	 *
 	 * @param target instance calls are forwarded to
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
@@ -42,7 +42,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 
 	/**
 	 * Create (and start) endpoint with properties
-	 * 
+	 *
 	 * @param target instance calls are forwarded to
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
@@ -56,7 +56,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 
 	/**
 	 * Create (and start) service endpoint with mock delegate. No schema validation.
-	 * 
+	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param <T> class to be mocked.
@@ -68,13 +68,13 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 		T mock = org.mockito.Mockito.mock(port);
 
 		proxy(mock, port, address, null, null, null);
-		
+
 		return mock;
 	}
 
 	/**
 	 * Create (and start) service endpoint with mock delegate. No schema validation.
-	 * 
+	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param properties additional properties, like mtom-enabled and so
@@ -87,13 +87,13 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 		T mock = org.mockito.Mockito.mock(port);
 
 		proxy(mock, port, address, null, null, properties);
-		
+
 		return mock;
 	}
 
 	/**
 	 * Create (and start) service endpoint with mock delegate.
-	 * 
+	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param wsdlLocation wsdl location, or null
@@ -107,7 +107,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 
 	/**
 	 * Create (and start) service endpoint with mock delegate.
-	 * 
+	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param wsdlLocation wsdl location, or null
@@ -124,13 +124,13 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 		T mock = org.mockito.Mockito.mock(port);
 
 		proxy(mock, port, address, wsdlLocation, null, properties);
-		
+
 		return mock;
 	}
 
 	/**
 	 * Create (and start) service with mock delegate.
-	 * 
+	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param schemaLocations schema locations, or null
@@ -141,10 +141,10 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	public <T> T mock(Class<T> port, String address, List<String> schemaLocations) {
 		return mock(port, address, schemaLocations, null);
 	}
-	
+
 	/**
 	 * Create (and start) service with mock delegate and additional properties.
-	 * 
+	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param schemaLocations schema locations, or null
@@ -161,23 +161,23 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 		T mock = org.mockito.Mockito.mock(port);
 
 		proxy(mock, port, address, null, schemaLocations, properties);
-		
+
 		return mock;
 	}
-	
+
 	public static Map<String, Object> properties(Object... properties) {
 		verifyProperties(properties);
-		
+
 		HashMap<String, Object> map = new HashMap<>();
 		if(properties != null) {
 			for(int i = 0; i < properties.length; i+=2) {
 				map.put((String)properties[i], properties[i+1]);
 			}
 		}
-		
+
 		return map;
 	}
-	
+
 	protected static void verifyProperties(Object... properties) {
 		if(properties != null) {
 			if(properties.length % 2 != 0) {
@@ -194,17 +194,17 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 
 
 	/**
-	 * 
+	 *
 	 * Stop services.
-	 * 
+	 *
 	 */
 
 	public abstract void stop();
 
 	/**
-	 * 
+	 *
 	 * (Re)start services.
-	 * 
+	 *
 	 */
 
 	public abstract void start();
