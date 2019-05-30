@@ -181,7 +181,7 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 	}
 
 	@Test
-	public void processValiationException() throws Exception {
+	public void processValidationException() throws Exception {
 		
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();

@@ -173,7 +173,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 	}
 	
 	/**
-	 * Get resvered ports.
+	 * Get reserved ports.
 	 * 
 	 * @return map of portName and port value; &gt; 1 if a port has been reserved, -1 otherwise
 	 */
@@ -207,7 +207,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 	 * Attempt to reserve a port by starting a server. The server 
 	 * 
 	 * @param port port to reserve
-	 * @return destination if succsesful
+	 * @return destination if successful
 	 * @throws IOException
 	 * @throws EndpointException
 	 */

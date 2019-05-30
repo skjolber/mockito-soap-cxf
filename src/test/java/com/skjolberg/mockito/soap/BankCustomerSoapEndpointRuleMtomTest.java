@@ -41,7 +41,7 @@ import static com.skjolberg.mockito.soap.SoapServiceRule.*;
 
 /**
  * 
- * Test use of MTOM (binary attachements).
+ * Test use of MTOM (binary attachments).
  * 
  */
 

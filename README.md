@@ -176,7 +176,7 @@ and
 String myPort = System.getProperty("myPort");
 ```
 
-In other words, for property resolvers which include system-properties, the reserved ports are readible available. For example the Spring property expression
+In other words, for property resolvers which include system-properties, the reserved ports are readily available. For example the Spring property expression
 
 ```
 http://localhost:${myPort}/selfservice/bank
@@ -199,9 +199,9 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
  - 1.0.4: Allow the usage of local:// transport - compliments of [aukevanleeuwen](https://github.com/aukevanleeuwen)
  - 1.0.3: MTOM support
- - 1.0.2: Support for mocking on (random) free ports (via SoapEndpointrule). 
+ - 1.0.2: Support for mocking on (random) free ports (via SoapEndpointRule). 
  - 1.0.1: Improved JAXB helper methods in SoapServiceFault
- - 1.0.0: Initial versionn
+ - 1.0.0: Initial version
 
 [Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
