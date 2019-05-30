@@ -34,7 +34,7 @@ public class SoapEndpointRuleTest {
 	public void testInvalidParameters2() {
 		exception.expect(IllegalArgumentException.class);
 
-		soap.mock(BankCustomerServicePortType.class, "http://localhost:12345", new ArrayList<String>());
+		soap.mock(BankCustomerServicePortType.class, "http://localhost:12345", new ArrayList<>());
 	}
 
 	@Test
@@ -48,28 +48,28 @@ public class SoapEndpointRuleTest {
 	public void testInvalidConstructor1() {
 		exception.expect(IllegalArgumentException.class);
 
-		SoapServiceRule.newInstance(-1, 1, new String[]{});
+		SoapServiceRule.newInstance(-1, 1);
 	}
 
 	@Test
 	public void testInvalidConstructor2() {
 		exception.expect(IllegalArgumentException.class);
 
-		SoapServiceRule.newInstance(2, 1, new String[]{});
+		SoapServiceRule.newInstance(2, 1);
 	}
 
 	@Test
 	public void testInvalidConstructor3() {
 		exception.expect(IllegalArgumentException.class);
 
-		SoapServiceRule.newInstance(2, Integer.MAX_VALUE, new String[]{});
+		SoapServiceRule.newInstance(2, Integer.MAX_VALUE);
 	}
 
 	@Test
 	public void testInvalidConstructor4() {
 		exception.expect(IllegalArgumentException.class);
 
-		SoapServiceRule.newInstance(10000, 10001, new String[]{"a", "b", "c"});
+		SoapServiceRule.newInstance(10000, 10001, "a", "b", "c");
 	}
 
 	@Test

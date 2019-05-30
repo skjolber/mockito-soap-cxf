@@ -14,8 +14,7 @@ public class SoapServiceProxy implements InvocationHandler {
 	public static <T> T newInstance(T obj) {
 		SoapServiceProxy proxy = new SoapServiceProxy(obj);
 		Class<?> clazz = obj.getClass();
-		T res = (T) Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), proxy);
-		return res;
+		return (T) Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), proxy);
 	}
 
 	SoapServiceProxy(Object obj) {

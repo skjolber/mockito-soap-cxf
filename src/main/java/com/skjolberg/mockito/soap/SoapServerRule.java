@@ -50,7 +50,7 @@ public class SoapServerRule extends SoapServiceRule {
 		svrFactory.setAddress(address);
 		svrFactory.setServiceBean(serviceInterface);
 
-		Map<String, Object> map = properties != null ? new HashMap<String, Object>(properties) : new HashMap<String, Object>();
+		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
 		
 		if(wsdlLocation != null || schemaLocations != null) {
 			map.put("schema-validation-enabled", true);
@@ -71,10 +71,6 @@ public class SoapServerRule extends SoapServiceRule {
 		
 		server.start();
 		
-	}
-
-	protected void before() throws Throwable {
-		super.before();
 	}
 
 	protected void after() {

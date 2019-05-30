@@ -34,7 +34,7 @@ public class SoapServerRuleTest {
 	public void testInvalidParameters2() {
 		exception.expect(IllegalArgumentException.class);
 
-		soap.mock(BankCustomerServicePortType.class, "http://localhost:12345", new ArrayList<String>());
+		soap.mock(BankCustomerServicePortType.class, "http://localhost:12345", new ArrayList<>());
 	}
 
 	@Test

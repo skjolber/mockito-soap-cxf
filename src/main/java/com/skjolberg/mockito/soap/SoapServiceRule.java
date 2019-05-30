@@ -168,7 +168,7 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	public static Map<String, Object> properties(Object... properties) {
 		verifyProperties(properties);
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		if(properties != null) {
 			for(int i = 0; i < properties.length; i+=2) {
 				map.put((String)properties[i], properties[i+1]);

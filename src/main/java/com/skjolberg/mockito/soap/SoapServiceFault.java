@@ -28,8 +28,7 @@ public class SoapServiceFault {
 	
 	public static SoapFault createFault() {
 		QName qName = SoapFault.FAULT_CODE_SERVER;
-		SoapFault fault = new SoapFault("message", qName);
-		return fault;
+		return new SoapFault("message", qName);
 	}
 
 	/**

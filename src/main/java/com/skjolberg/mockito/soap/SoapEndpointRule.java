@@ -219,7 +219,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 		serverFactoryBean.setAddress("http://localhost:" + port);
 		
 		Bus bus = serverFactoryBean.getBus();
-		DestinationFactory destinationFactory = (DestinationFactory) bus.getExtension(DestinationFactoryManager.class).getDestinationFactoryForUri(serverFactoryBean.getAddress());;
+		DestinationFactory destinationFactory = bus.getExtension(DestinationFactoryManager.class).getDestinationFactoryForUri(serverFactoryBean.getAddress());
 		
 		EndpointInfo ei = new EndpointInfo(null, Integer.toString(port));
 		ei.setAddress(serverFactoryBean.getAddress());
@@ -259,7 +259,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 		
 		EndpointImpl endpoint = (EndpointImpl)Provider.provider().createEndpoint(null, serviceInterface);
 
-		Map<String, Object> map = properties != null ? new HashMap<String, Object>(properties) : new HashMap<String, Object>();
+		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
 
 		if(wsdlLocation != null || schemaLocations != null) {
 			map.put("schema-validation-enabled", true);
@@ -293,7 +293,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 		return null;
 	}
 
-	protected void before() throws Throwable {
+	protected void before() {
 		// reserve ports for all ports 
 		for(PortReservation reservation : reservations) {
 			reservation.start();
