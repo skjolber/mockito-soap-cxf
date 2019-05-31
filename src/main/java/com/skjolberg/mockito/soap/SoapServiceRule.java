@@ -1,5 +1,7 @@
 package com.skjolberg.mockito.soap;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,29 +26,29 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	}
 
 	/**
-	 * Create (and start) endpoint.
+	 * Create (and start) an endpoint.
 	 *
 	 * @param target instance calls are forwarded to
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param wsdlLocation wsdl location, or null
 	 * @param schemaLocations schema locations, or null
-	 * @param <T> mock target - the mock to which server calls are delegated
+	 * @param <T> the type of the mocked class
 	 */
 	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations) {
 		proxy(target, port, address, wsdlLocation, schemaLocations, null);
 	}
 
 	/**
-	 * Create (and start) endpoint with properties
+	 * Create (and start) an endpoint with the given properties.
 	 *
 	 * @param target instance calls are forwarded to
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
 	 * @param wsdlLocation wsdl location, or null
 	 * @param schemaLocations schema locations, or null
-	 * @param properties additional properties, like mtom-enabled and so
-	 * @param <T> mock target - the mock to which server calls are delegated
+	 * @param properties additional properties, like mtom-enabled etc.
+	 * @param <T> the type of the mocked class
 	 */
 	public abstract <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties);
 
@@ -55,16 +57,11 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
-	 * @param <T> class to be mocked.
-	 * @return mockito mock - the mock to which server calls are delegated
+	 * @param <T> class to be mocked
+	 * @return the mockito mock to which server calls are delegated
 	 */
 	public <T> T mock(Class<T> port, String address) {
-		// wrap the evaluator mock in proxy
-		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, null, null, null);
-
-		return mock;
+		return mock(port, address, null, null, null);
 	}
 
 	/**
@@ -72,17 +69,12 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
-	 * @param properties additional properties, like mtom-enabled and so
-	 * @param <T> class to be mocked.
-	 * @return mockito mock - the mock to which server calls are delegated
+	 * @param properties additional properties, like mtom-enabled etc.
+	 * @param <T> class to be mocked
+	 * @return the mockito mock to which server calls are delegated
 	 */
 	public <T> T mock(Class<T> port, String address, Map<String, Object> properties) {
-		// wrap the evaluator mock in proxy
-		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, null, null, properties);
-
-		return mock;
+		return mock(port, address, null, null, properties);
 	}
 
 	/**
@@ -90,9 +82,9 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
-	 * @param wsdlLocation wsdl location, or null
-	 * @param <T> class to be mocked.
-	 * @return mockito mock - the mock to which server calls are delegated
+	 * @param wsdlLocation wsdl location
+	 * @param <T> class to be mocked
+	 * @return the mockito mock to which server calls are delegated
 	 */
 	public <T> T mock(Class<T> port, String address, String wsdlLocation) {
 		return mock(port, address, wsdlLocation, null);
@@ -103,31 +95,26 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
-	 * @param wsdlLocation wsdl location, or null
-	 * @param properties additional properties, like mtom-enabled and so
-	 * @param <T> class to be mocked.
-	 * @return mockito mock - the mock to which server calls are delegated
+	 * @param wsdlLocation wsdl location
+	 * @param properties additional properties, like mtom-enabled etc.
+	 * @param <T> class to be mocked
+	 * @return the mockito mock to which server calls are delegated
 	 */
 	public <T> T mock(Class<T> port, String address, String wsdlLocation, Map<String, Object> properties) {
 		if(wsdlLocation == null || wsdlLocation.isEmpty()) {
 			throw new IllegalArgumentException("Expected WSDL location.");
 		}
-		// wrap the evaluator mock in proxy
-		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, wsdlLocation, null, properties);
-
-		return mock;
+		return mock(port, address, wsdlLocation, null, properties);
 	}
 
 	/**
-	 * Create (and start) service with mock delegate.
+	 * Create (and start) service endpoint with mock delegate.
 	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
-	 * @param schemaLocations schema locations, or null
-	 * @param <T> class to be mocked.
-	 * @return mockito mock - the mock to which server calls are delegated
+	 * @param schemaLocations schema locations
+	 * @param <T> class to be mocked
+	 * @return the mockito mock to which server calls are delegated
 	 */
 	public <T> T mock(Class<T> port, String address, List<String> schemaLocations) {
 		return mock(port, address, schemaLocations, null);
@@ -138,21 +125,57 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 	 *
 	 * @param port service class
 	 * @param address address, i.e. http://localhost:1234
-	 * @param schemaLocations schema locations, or null
+	 * @param schemaLocations schema locations
 	 * @param properties additional properties, like mtom-enabled and so
-	 * @param <T> class to be mocked.
-	 * @return mockito mock - the mock to which server calls are delegated
+	 * @param <T> class to be mocked
+	 * @return the mockito mock to which server calls are delegated
 	 */
 	public <T> T mock(Class<T> port, String address, List<String> schemaLocations, Map<String, Object> properties) {
 		if(schemaLocations == null || schemaLocations.isEmpty()) {
 			throw new IllegalArgumentException("Expected XML Schema location(s).");
 		}
+		return mock(port, address, null, schemaLocations, properties);
+	}
+
+	private <T> T mock(Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
 		// wrap the evaluator mock in proxy
 		T mock = org.mockito.Mockito.mock(port);
-
-		proxy(mock, port, address, null, schemaLocations, properties);
-
+		proxy(mock, port, address, wsdlLocation, schemaLocations, properties);
 		return mock;
+	}
+
+	protected <T> void assertValidParams(T target, Class<T> port, String address) {
+		if(target == null) {
+			throw new IllegalArgumentException("Expected proxy target");
+		}
+		if(port == null) {
+			throw new IllegalArgumentException("Expect port class");
+		}
+		if(address == null) {
+			throw new IllegalArgumentException("Expected address");
+		}
+
+		assertValidAddress(address);
+	}
+
+	protected void assertValidAddress(String address) {
+		parsePort(address); // checks that address parsing is successful
+	}
+
+	protected int parsePort(String address) {
+		try {
+			return new URL(address).getPort();
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("Expected valid address: " + address, e);
+		}
+	}
+
+	protected Map<String, Object> processProperties(Map<String, Object> properties, String wsdlLocation, List<String> schemaLocations) {
+		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
+		if(wsdlLocation != null || schemaLocations != null) {
+			map.put("schema-validation-enabled", true);
+		}
+		return map;
 	}
 
 	public static Map<String, Object> properties(Object... properties) {
