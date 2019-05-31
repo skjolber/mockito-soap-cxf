@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -92,7 +93,8 @@ public class SoapEndpointRuleTest {
 	 */
 	@Test
 	public void testEndpointStartStop() throws Exception {
-		String address = "http://localhost:12345/service";
+		int port = 12344;
+		String address = "http://localhost:" + port + "/service";
 
 		soap.mock(BankCustomerServicePortType.class, address);
 
@@ -107,18 +109,18 @@ public class SoapEndpointRuleTest {
 		} catch(FileNotFoundException e) {
 			// pass
 		}
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
+		Assert.assertFalse(SoapEndpointRule.isPortAvailable(port));
 
 		soap.start();
 
-		String wsdl = IOUtils.toString(url.openStream());
-
-		assertThat(wsdl, containsString("wsdl:definitions"));
+		try (InputStream in = url.openStream()) {
+			String wsdl = IOUtils.toString(in);
+			assertThat(wsdl, containsString("wsdl:definitions"));
+		}
 
 		soap.destroy();
 
-		// currently, it seems like ports are not freed. TODO
-		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address).getPort()));
+		Assert.assertTrue(SoapEndpointRule.isPortAvailable(port));
 	}
 
 }

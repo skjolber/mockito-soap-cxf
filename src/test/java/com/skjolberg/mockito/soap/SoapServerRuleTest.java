@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -64,8 +65,10 @@ public class SoapServerRuleTest {
 	 */
 	@Test
 	public void testStartStop() throws Exception {
-		String address1 = "http://localhost:12346/service1";
-		String address2 = "http://localhost:12346/service2";
+		int port1 = 12345;
+		int port2 = 12345;
+		String address1 = "http://localhost:" + port1 + "/service1";
+		String address2 = "http://localhost:" + port2 + "/service2";
 
 		soap.mock(BankCustomerServicePortType.class, address1);
 		soap.mock(BankCustomerServicePortType.class, address2);
@@ -75,37 +78,36 @@ public class SoapServerRuleTest {
 
 		soap.stop();
 
-		try {
-			url1.openStream();
-
+		try (InputStream in = url1.openStream()) {
 			Assert.fail();
 		} catch(FileNotFoundException e) {
 			// pass
 		}
-		try {
-			url2.openStream();
-
+		try (InputStream in = url2.openStream()) {
 			Assert.fail();
 		} catch(FileNotFoundException e) {
 			// pass
 		}
 		// ports are still taken
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(new URL(address1).getPort()));
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(new URL(address2).getPort()));
+		Assert.assertFalse(SoapEndpointRule.isPortAvailable(port1));
+		Assert.assertFalse(SoapEndpointRule.isPortAvailable(port2));
 
 		soap.start();
 
-		String wsdl1 = IOUtils.toString(url1.openStream());
-		assertThat(wsdl1, containsString("wsdl:definitions"));
+		try (InputStream in = url1.openStream()) {
+			String wsdl1 = IOUtils.toString(in);
+			assertThat(wsdl1, containsString("wsdl:definitions"));
+		}
 
-		String wsdl2 = IOUtils.toString(url2.openStream());
-		assertThat(wsdl2, containsString("wsdl:definitions"));
+		try (InputStream in = url2.openStream()) {
+			String wsdl2 = IOUtils.toString(url2.openStream());
+			assertThat(wsdl2, containsString("wsdl:definitions"));
+		}
 
 		soap.destroy();
 
-		// currently, it seems like ports are not freed. TODO
-		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address1).getPort()));
-		//Assert.assertTrue(SoapEndpointRule.isPortAvailable(new URL(address2).getPort()));
+		Assert.assertTrue(SoapEndpointRule.isPortAvailable(port1));
+		Assert.assertTrue(SoapEndpointRule.isPortAvailable(port2));
 	}
 
 }
