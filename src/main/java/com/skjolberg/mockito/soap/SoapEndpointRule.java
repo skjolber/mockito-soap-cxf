@@ -225,6 +225,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 		return destination;
 	}
 
+	@Override
 	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
 		if(target == null) {
 			throw new IllegalArgumentException("Expected proxy target");
@@ -285,11 +286,13 @@ public class SoapEndpointRule extends SoapServiceRule {
 		return null;
 	}
 
+	@Override
 	protected void before() {
 		// reserve all ports
 		reservations.forEach(PortReservation::start);
 	}
 
+	@Override
 	protected void after() {
 		destroy();
 	}
@@ -308,6 +311,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 		reservations.forEach(PortReservation::stop);
 	}
 
+	@Override
 	public void stop() {
 		endpoints.values().forEach(endpoint -> endpoint.getServer().stop());
 	}

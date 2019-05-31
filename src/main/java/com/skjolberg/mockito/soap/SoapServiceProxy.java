@@ -20,6 +20,7 @@ public class SoapServiceProxy implements InvocationHandler {
 		this.obj = obj;
 	}
 
+	@Override
 	public Object invoke(Object proxy, Method m, Object[] args) throws Exception {
 		try {
 			return m.invoke(obj, args);

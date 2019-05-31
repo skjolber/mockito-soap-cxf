@@ -23,6 +23,7 @@ public class SoapServerRule extends SoapServiceRule {
 
 	private Map<String, Server> servers = new HashMap<>();
 
+	@Override
 	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
 		if(target == null) {
 			throw new IllegalArgumentException("Expected proxy target");
@@ -69,6 +70,7 @@ public class SoapServerRule extends SoapServiceRule {
 		server.start();
 	}
 
+	@Override
 	protected void after() {
 		reset();
 	}
@@ -77,10 +79,12 @@ public class SoapServerRule extends SoapServiceRule {
 		reset();
 	}
 
+	@Override
 	public void stop() {
 		servers.values().forEach(Server::stop);
 	}
 
+	@Override
 	public void start() {
 		servers.values().forEach(Server::start);
 	}
