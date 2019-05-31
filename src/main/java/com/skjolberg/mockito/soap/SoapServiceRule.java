@@ -1,5 +1,7 @@
 package com.skjolberg.mockito.soap;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +142,40 @@ public abstract class SoapServiceRule extends org.junit.rules.ExternalResource {
 		T mock = org.mockito.Mockito.mock(port);
 		proxy(mock, port, address, wsdlLocation, schemaLocations, properties);
 		return mock;
+	}
+
+	protected <T> void assertValidParams(T target, Class<T> port, String address) {
+		if(target == null) {
+			throw new IllegalArgumentException("Expected proxy target");
+		}
+		if(port == null) {
+			throw new IllegalArgumentException("Expect port class");
+		}
+		if(address == null) {
+			throw new IllegalArgumentException("Expected address");
+		}
+
+		assertValidAddress(address);
+	}
+
+	protected void assertValidAddress(String address) {
+		parsePort(address); // checks that address parsing is successful
+	}
+
+	protected int parsePort(String address) {
+		try {
+			return new URL(address).getPort();
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("Expected valid address: " + address, e);
+		}
+	}
+
+	protected Map<String, Object> processProperties(Map<String, Object> properties, String wsdlLocation, List<String> schemaLocations) {
+		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
+		if(wsdlLocation != null || schemaLocations != null) {
+			map.put("schema-validation-enabled", true);
+		}
+		return map;
 	}
 
 	public static Map<String, Object> properties(Object... properties) {

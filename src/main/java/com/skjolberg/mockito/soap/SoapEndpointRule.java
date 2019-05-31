@@ -1,8 +1,6 @@
 package com.skjolberg.mockito.soap;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,45 +125,27 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 	@Override
 	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
-		if(target == null) {
-			throw new IllegalArgumentException("Expected proxy target");
-		}
-		if(port == null) {
-			throw new IllegalArgumentException("Expect port class");
-		}
-		if(address == null) {
-			throw new IllegalArgumentException("Expected address");
-		}
-		URL url;
-		try {
-			url = new URL(address);
-		} catch (MalformedURLException e) {
-			throw new IllegalArgumentException("Expected valid address: " + address, e);
-		}
+		assertValidParams(target, port, address);
+
 		if(endpoints.containsKey(address)) {
 			throw new IllegalArgumentException("Endpoint " + address + " already exists");
 		}
 
 		T serviceInterface = SoapServiceProxy.newInstance(target);
 
-		Destination destination = portManager.getData(url.getPort());
+		Destination destination = portManager.getData(parsePort(address));
 
 		EndpointImpl endpoint = (EndpointImpl)Provider.provider().createEndpoint(null, serviceInterface);
 
-		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
-
-		if(wsdlLocation != null || schemaLocations != null) {
-			map.put("schema-validation-enabled", true);
-
-			if(wsdlLocation != null) {
-				endpoint.setWsdlLocation(wsdlLocation);
-			}
-
-			if(schemaLocations != null) {
-				endpoint.setSchemaLocations(schemaLocations);
-			}
+		if(wsdlLocation != null) {
+			endpoint.setWsdlLocation(wsdlLocation);
 		}
-		endpoint.setProperties(map);
+
+		if(schemaLocations != null) {
+			endpoint.setSchemaLocations(schemaLocations);
+		}
+
+		endpoint.setProperties(processProperties(properties, wsdlLocation, schemaLocations));
 
 		if(destination != null) {
 			ServerImpl server = endpoint.getServer();

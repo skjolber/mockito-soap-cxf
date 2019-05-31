@@ -1,7 +1,5 @@
 package com.skjolberg.mockito.soap;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,17 +24,7 @@ public class SoapServerRule extends SoapServiceRule {
 
 	@Override
 	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
-		if(target == null) {
-			throw new IllegalArgumentException("Expected proxy target");
-		}
-		if(port == null) {
-			throw new IllegalArgumentException("Expect port class");
-		}
-		if(address == null) {
-			throw new IllegalArgumentException("Expected address");
-		}
-
-		assertValidAddress(address);
+		assertValidParams(target, port, address);
 
 		if(servers.containsKey(address)) {
 			throw new IllegalArgumentException("Server " + address + " already exists");
@@ -49,20 +37,15 @@ public class SoapServerRule extends SoapServiceRule {
 		svrFactory.setAddress(address);
 		svrFactory.setServiceBean(serviceInterface);
 
-		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
-
-		if(wsdlLocation != null || schemaLocations != null) {
-			map.put("schema-validation-enabled", true);
-
-			if(wsdlLocation != null) {
-				svrFactory.setWsdlLocation(wsdlLocation);
-			}
-
-			if(schemaLocations != null) {
-				svrFactory.setSchemaLocations(schemaLocations);
-			}
+		if(wsdlLocation != null) {
+			svrFactory.setWsdlLocation(wsdlLocation);
 		}
-		svrFactory.setProperties(map);
+
+		if(schemaLocations != null) {
+			svrFactory.setSchemaLocations(schemaLocations);
+		}
+
+		svrFactory.setProperties(processProperties(properties, wsdlLocation, schemaLocations));
 
 		Server server = svrFactory.create();
 
@@ -98,15 +81,11 @@ public class SoapServerRule extends SoapServiceRule {
 		servers.clear();
 	}
 
-	private void assertValidAddress(String address) {
+	@Override
+	protected void assertValidAddress(String address) {
 		if (address != null && address.startsWith("local://")) {
 			return;
 		}
-
-		try {
-			new URL(address);
-		} catch (MalformedURLException e) {
-			throw new IllegalArgumentException("Expected valid address: " + address, e);
-		}
+		super.assertValidAddress(address);
 	}
 }
