@@ -79,7 +79,7 @@ public class BankCustomerSoapEndpointClassRuleTest {
 
 	@Before
 	public void setup() throws Exception {
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(soap.getPort("myPort")));
+		Assert.assertFalse(PortManager.isPortAvailable(soap.getPort("myPort")));
 		assertThat(new URL(bankCustomerServiceAddress).getPort(), is(soap.getPort("myPort")));
 		assertThat(soap.getPorts().get("myPort"), is(soap.getPort("myPort")));
 

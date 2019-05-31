@@ -89,8 +89,8 @@ public class SoapServerRuleTest {
 			// pass
 		}
 		// ports are still taken
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(port1));
-		Assert.assertFalse(SoapEndpointRule.isPortAvailable(port2));
+		Assert.assertFalse(PortManager.isPortAvailable(port1));
+		Assert.assertFalse(PortManager.isPortAvailable(port2));
 
 		soap.start();
 
@@ -106,8 +106,8 @@ public class SoapServerRuleTest {
 
 		soap.destroy();
 
-		Assert.assertTrue(SoapEndpointRule.isPortAvailable(port1));
-		Assert.assertTrue(SoapEndpointRule.isPortAvailable(port2));
+		Assert.assertTrue(PortManager.isPortAvailable(port1));
+		Assert.assertTrue(PortManager.isPortAvailable(port2));
 	}
 
 }
