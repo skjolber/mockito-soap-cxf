@@ -50,26 +50,22 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
 	 */
-
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
 
 	/**
 	 * Mock object proxied by SOAP service
-	 * 
 	 */
-	private BankCustomerServicePortType bankServiceMock; 
+	private BankCustomerServicePortType bankServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 * 
 	 */
 	@Autowired
 	private BankCustomerService bankCustomerService;
 
 	@Autowired
 	private Bus bus;
-
 
 	@Before
 	public void setup() {
@@ -80,17 +76,12 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 	}
-	
+
 	/**
-	 * 
 	 * Webservice call which results in regular response returned to the client.
-	 * 
 	 */
-
-
 	@Test
 	public void processNormalSoapCall() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -117,16 +108,12 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 
 		assertThat(accounts.getAccount(), is(accountList));
 	}
-	
-	/**
-	 * 
-	 * Webservice call which results in soap fault being returned to the client.
-	 * 
-	 */
 
+	/**
+	 * Webservice call which results in soap fault being returned to the client.
+	 */
 	@Test
 	public void processSoapCallWithException1() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -148,14 +135,13 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 		String secret = "abc";
 
 		exception.expect(Exception.class);
-		 
+
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
-	
+
 	@Test
 	public void processSoapCallWithException2() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -175,14 +161,13 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 		String secret = "abc";
 
 		exception.expect(Exception.class);
-		 
+
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
 
 	@Test
-	public void processValiationException() throws Exception {
-		
+	public void processValidationException() throws Exception {
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -193,11 +178,10 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
-		
+
 		exception.expect(Exception.class); // unmarshalling error, the client does not accept the document as a request
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
-
 	}
 }

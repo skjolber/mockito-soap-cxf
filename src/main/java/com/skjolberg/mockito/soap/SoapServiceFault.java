@@ -22,23 +22,20 @@ public class SoapServiceFault {
 
 	/**
 	 * Create SOAP fault without detail.
-	 * 
+	 *
 	 * @return SOAP fault
 	 */
-	
 	public static SoapFault createFault() {
 		QName qName = SoapFault.FAULT_CODE_SERVER;
-		SoapFault fault = new SoapFault("message", qName);
-		return fault;
+		return new SoapFault("message", qName);
 	}
 
 	/**
 	 * Create SOAP fault with detail.
-	 * 
+	 *
 	 * @param detail fault detail
 	 * @return SOAP fault
 	 */
-	
 	public static SoapFault createFault(Node detail) {
 		QName qName = SoapFault.FAULT_CODE_SERVER;
 		SoapFault fault = new SoapFault("message", qName);
@@ -49,44 +46,40 @@ public class SoapServiceFault {
 
 	/**
 	 * Create SOAP fault with detail.
-	 * 
+	 *
 	 * @param detail XML string fault detail
 	 * @return SOAP fault
 	 */
-	
 	public static SoapFault createFault(String detail) {
-		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		    factory.setNamespaceAware(true);
-	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document document = builder.parse(new InputSource(new StringReader(detail)));
-	        
-	        return createFault(document.getDocumentElement());
+			factory.setNamespaceAware(true);
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(new InputSource(new StringReader(detail)));
+
+			return createFault(document.getDocumentElement());
 		} catch(Exception e) {
 			throw new IllegalArgumentException(detail, e);
 		}
-        
 	}
-	
+
 	/**
 	 * Create SOAP fault with detail.
-	 * 
+	 *
 	 * @param detail JAXB-serializable detail
 	 * @return SOAP fault
 	 */
-	
 	public static SoapFault createFault(Object detail) {
 		return createFault(detail, null);
 	}
-	
+
 	public static <T> SoapFault createFault(Object detail, QName qname) {
-		// not for production use; does not reuse JAXB context 
+		// not for production use; does not reuse JAXB context
 		try {
 			JAXBContext context = JAXBContext.newInstance(detail.getClass());
-	
+
 			DOMResult result = new DOMResult();
-	
+
 			Marshaller marshaller;
 			if(detail.getClass().isAnnotationPresent(XmlRootElement.class)) {
 				marshaller = getMarshaller(context, false);
@@ -94,21 +87,21 @@ public class SoapServiceFault {
 				detail = new JAXBElement(qname, detail.getClass(), detail);
 				marshaller = getMarshaller(context, true);
 			}
-	
+
 			marshaller.marshal(detail, result);
-			
-	        return createFault(result.getNode().getFirstChild());
+
+			return createFault(result.getNode().getFirstChild());
 		} catch(Exception e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 
-    protected static Marshaller getMarshaller(JAXBContext context, boolean fragment) throws JAXBException {
-    	Marshaller marshaller = context.createMarshaller();
-    	
-    	marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
-    	
-    	return marshaller;
-    }
+	protected static Marshaller getMarshaller(JAXBContext context, boolean fragment) throws JAXBException {
+		Marshaller marshaller = context.createMarshaller();
+
+		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
+
+		return marshaller;
+	}
 
 }

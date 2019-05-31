@@ -103,6 +103,12 @@
 			<artifactId>cxf-rt-rs-extension-providers</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-features-logging</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- spring -->
 		<dependency>
@@ -157,12 +163,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>commons-io</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>${commons-io.version}</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>
@@ -303,11 +307,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.0.1</version>
-                <configuration>
-                    <excludes>
-                        <exclude>com/skjolberg/example/**</exclude>
-                    </excludes>
-                </configuration>				
+				<configuration>
+					<excludes>
+						<exclude>com/skjolberg/example/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -344,11 +348,11 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>3.3.2</version>
-            </plugin>			
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>3.3.2</version>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -359,7 +363,7 @@
 			<properties>
 				<!-- this is useful when the desired key is not the default (first)
 					 export GPG_KEY_NAME=ABCDEF01
-				 -->
+				-->
 				<gpg.executable>gpg</gpg.executable>
 				<gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
 			</properties>

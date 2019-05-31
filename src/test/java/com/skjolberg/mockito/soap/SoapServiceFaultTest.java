@@ -37,7 +37,6 @@ public class SoapServiceFaultTest {
 		noXmlRoot.setFoo("bar");
 
 		createFault(noXmlRoot, new QName("local"));
-		
 	}
 
 	@Test

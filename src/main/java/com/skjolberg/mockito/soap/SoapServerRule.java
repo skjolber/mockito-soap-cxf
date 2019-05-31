@@ -5,19 +5,16 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 /**
- * Rule for mocking SOAP services using @{@linkplain JaxWsServerFactoryBean} to create {@linkplain Server}s. 
+ * Rule for mocking SOAP services using @{@linkplain JaxWsServerFactoryBean} to create {@linkplain Server}s.
  * Each individual service requires a separate port.
- * 
- * @author thomas.skjolberg@gmail.com
  *
+ * @author thomas.skjolberg@gmail.com
  */
-
 public class SoapServerRule extends SoapServiceRule {
 
 	public static SoapServerRule newInstance() {
@@ -26,6 +23,7 @@ public class SoapServerRule extends SoapServiceRule {
 
 	private Map<String, Server> servers = new HashMap<>();
 
+	@Override
 	public <T> void proxy(T target, Class<T> port, String address, String wsdlLocation, List<String> schemaLocations, Map<String, Object> properties) {
 		if(target == null) {
 			throw new IllegalArgumentException("Expected proxy target");
@@ -42,7 +40,7 @@ public class SoapServerRule extends SoapServiceRule {
 		if(servers.containsKey(address)) {
 			throw new IllegalArgumentException("Server " + address + " already exists");
 		}
-		
+
 		T serviceInterface = SoapServiceProxy.newInstance(target);
 
 		JaxWsServerFactoryBean svrFactory = new JaxWsServerFactoryBean();
@@ -50,33 +48,29 @@ public class SoapServerRule extends SoapServiceRule {
 		svrFactory.setAddress(address);
 		svrFactory.setServiceBean(serviceInterface);
 
-		Map<String, Object> map = properties != null ? new HashMap<String, Object>(properties) : new HashMap<String, Object>();
-		
+		Map<String, Object> map = properties != null ? new HashMap<>(properties) : new HashMap<>();
+
 		if(wsdlLocation != null || schemaLocations != null) {
 			map.put("schema-validation-enabled", true);
-			
+
 			if(wsdlLocation != null) {
 				svrFactory.setWsdlLocation(wsdlLocation);
 			}
-			
+
 			if(schemaLocations != null) {
 				svrFactory.setSchemaLocations(schemaLocations);
 			}
 		}
 		svrFactory.setProperties(map);
-		
+
 		Server server = svrFactory.create();
-		
+
 		servers.put(address, server);
-		
+
 		server.start();
-		
 	}
 
-	protected void before() throws Throwable {
-		super.before();
-	}
-
+	@Override
 	protected void after() {
 		reset();
 	}
@@ -85,24 +79,21 @@ public class SoapServerRule extends SoapServiceRule {
 		reset();
 	}
 
+	@Override
 	public void stop() {
-		for (Entry<String, Server> entry : servers.entrySet()) {
-			entry.getValue().stop();
-		}
+		servers.values().forEach(Server::stop);
 	}
 
+	@Override
 	public void start() {
-		for (Entry<String, Server> entry : servers.entrySet()) {
-			entry.getValue().start();
-		}
+		servers.values().forEach(Server::start);
 	}
 
 	public void reset() {
-		for (Entry<String, Server> entry : servers.entrySet()) {
-			entry.getValue().getDestination().shutdown();
-
-			entry.getValue().destroy();
-		}
+		servers.values().forEach(server -> {
+			server.getDestination().shutdown();
+			server.destroy();
+		});
 		servers.clear();
 	}
 

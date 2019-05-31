@@ -13,13 +13,10 @@ import com.github.skjolber.shop.example.v1.ShopException_Exception;
 import com.github.skjolber.shop.example.v1.ShopRequestHeader;
 
 /**
- * 
  * Some kind of service bean which forwards calls to the webservice using the webservice client.
- * 
- * @author thomas
  *
+ * @author thomas
  */
-
 @Service
 public class ShopCustomerService {
 
@@ -33,9 +30,8 @@ public class ShopCustomerService {
 	}
 
 	public GetItemsResponse getItems(String customerNumber, String secret) throws Exception {
+		logger.info("Get items for {} with secret {}", customerNumber, secret);
 
-		logger.info("Get items for {} with secret {}", customerNumber, secret) ;
-		
 		GetItemsRequest request = new GetItemsRequest();
 		request.setCustomerNumber(customerNumber);
 
@@ -44,14 +40,12 @@ public class ShopCustomerService {
 		try {
 			return port.getItems(request, requestHeader);
 		} catch(ShopException_Exception e) {
-
 			ShopException faultInfo = e.getFaultInfo();
-			
+
 			logger.warn("Problem getting items: " + faultInfo.getCode() + ": " + faultInfo.getMessage());
-			
+
 			throw new Exception("unable to recover", e);
 		}
-
 	}
 
 	private ShopRequestHeader getSecurityHeader(String secret) {

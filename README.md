@@ -44,7 +44,7 @@ Add an exclusion for the `cxf-core` artifact
 ```
 
 # Usage
-If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointRuleTest.java). 
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointRuleTest.java).
 
 # Basics
 Create a `SoapServiceRule`
@@ -57,16 +57,16 @@ public SoapServiceRule soap = SoapServiceRule.newInstance();
 and mock service endpoints by using
 
 ```java
-MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345"); 
+MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345");
 ```
 
 or, preferably
 
 ```java
-MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", "classpath:/wsdl/MyService.wsdl"); 
+MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", "classpath:/wsdl/MyService.wsdl");
 ```
 
-for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object. 
+for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object.
 
 # Details
 Create mock response via code
@@ -176,7 +176,7 @@ and
 String myPort = System.getProperty("myPort");
 ```
 
-In other words, for property resolvers which include system-properties, the reserved ports are readible available. For example the Spring property expression
+In other words, for property resolvers which include system-properties, the reserved ports are readily available. For example the Spring property expression
 
 ```
 http://localhost:${myPort}/selfservice/bank
@@ -199,11 +199,11 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
  - 1.0.4: Allow the usage of local:// transport - compliments of [aukevanleeuwen](https://github.com/aukevanleeuwen)
  - 1.0.3: MTOM support
- - 1.0.2: Support for mocking on (random) free ports (via SoapEndpointrule). 
+ - 1.0.2: Support for mocking on (random) free ports (via SoapEndpointRule).
  - 1.0.1: Improved JAXB helper methods in SoapServiceFault
- - 1.0.0: Initial versionn
+ - 1.0.0: Initial version
 
-[Apache 2.0]:          	http://www.apache.org/licenses/LICENSE-2.0.html
-[issue-tracker]:       	https://github.com/skjolber/mockito-soap-cxf/issues
+[Apache 2.0]:           http://www.apache.org/licenses/LICENSE-2.0.html
+[issue-tracker]:        https://github.com/skjolber/mockito-soap-cxf/issues
 [Maven]:                http://maven.apache.org/
-[1.0.4]:				https://github.com/skjolber/mockito-soap-cxf/releases
+[1.0.4]:                https://github.com/skjolber/mockito-soap-cxf/releases

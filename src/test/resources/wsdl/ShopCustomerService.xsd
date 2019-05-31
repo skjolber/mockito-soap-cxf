@@ -11,11 +11,11 @@
 		<complexType>
 			<sequence>
 				<element name="customerNumber" type="tns:customerNumberType">
-                    <annotation>
-                        <documentation>
-                            Shop customer identifier
-                        </documentation>
-                    </annotation>				
+					<annotation>
+						<documentation>
+							Shop customer identifier
+						</documentation>
+					</annotation>
 				</element>
 			</sequence>
 		</complexType>
@@ -25,30 +25,30 @@
 		<complexType>
 			<sequence>
 				<element name="item" type="string" minOccurs="0" maxOccurs="unbounded">
-                    <annotation>
-                        <documentation>
-                            Shop item number for customer 
-                        </documentation>
-                    </annotation>				
+					<annotation>
+						<documentation>
+							Shop item number for customer
+						</documentation>
+					</annotation>
 				</element>
 			</sequence>
 		</complexType>
 	</element>
 
-    <element name="shopException" >
-        <complexType>
-            <sequence>
-                <element name="code" type="tns:code"/>
-                <element name="message" type="string"/>
-            </sequence>
-        </complexType>
-    </element>
+	<element name="shopException" >
+		<complexType>
+			<sequence>
+				<element name="code" type="tns:code"/>
+				<element name="message" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
 
-    <complexType name="customerException">
-        <sequence>
-            <element name="status" type="string"/>
-        </sequence>
-    </complexType>
+	<complexType name="customerException">
+		<sequence>
+			<element name="status" type="string"/>
+		</sequence>
+	</complexType>
 
 	<simpleType name="code">
 		<annotation>
@@ -57,8 +57,8 @@
 		<restriction base="string">
 			<pattern value="[a-z]+" />
 		</restriction>
-	</simpleType>    
-	
+	</simpleType>
+
 	<simpleType name="customerNumberType">
 		<annotation>
 			<documentation>Trivial code types so to easily break validation in examples</documentation>
@@ -66,17 +66,17 @@
 		<restriction base="string">
 			<pattern value="[0-9]+" />
 		</restriction>
-	</simpleType>  	
+	</simpleType>
 
 	<element name="shopRequestHeader">
 		<complexType>
 			<sequence>
 				<element name="secret" type="string">
-                    <annotation>
-                        <documentation>
-                            Secret token 
-                        </documentation>
-                    </annotation>				
+					<annotation>
+						<documentation>
+							Secret token
+						</documentation>
+					</annotation>
 				</element>
 			</sequence>
 		</complexType>

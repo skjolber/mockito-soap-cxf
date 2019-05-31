@@ -9,8 +9,8 @@
 		</xsd:schema>
 	</wsdl:types>
 
-    <!-- Messages -->
-    
+	<!-- Messages -->
+
 	<wsdl:message name="getAccountsRequest">
 		<wsdl:part name="parameters" element="e:getAccountsRequest" />
 	</wsdl:message>
@@ -26,12 +26,12 @@
 		<wsdl:part name="fault" type="e:customerException" />
 	</wsdl:message>
 
-    <wsdl:message name="bankHeader">
-        <wsdl:part element="e:bankRequestHeader" name="bankHeader"/>
-    </wsdl:message>
-    
-    <!-- Port types -->
-    
+	<wsdl:message name="bankHeader">
+		<wsdl:part element="e:bankRequestHeader" name="bankHeader"/>
+	</wsdl:message>
+
+	<!-- Port types -->
+
 	<wsdl:portType name="BankCustomerServicePortType">
 		<wsdl:operation name="getAccounts">
 			<wsdl:input message="e:getAccountsRequest" />
@@ -40,8 +40,8 @@
 			<wsdl:fault name="customerException" message="e:customerException"/>
 		</wsdl:operation>
 	</wsdl:portType>
-	
-    <!-- Bindings -->	
+
+	<!-- Bindings -->
 
 	<wsdl:binding name="BankCustomerServiceBinding" type="e:BankCustomerServicePortType">
 		<soap:binding style="document"
@@ -57,12 +57,12 @@
 			</wsdl:output>
 			<wsdl:fault name="bankException">
 				<soap:fault name="bankException" use="literal"/>
-			</wsdl:fault>			
+			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
-	
-    <!-- Services -->
-    	
+
+	<!-- Services -->
+
 	<wsdl:service name="BankCustomerService">
 		<wsdl:port name="BankCustomerServicePort" binding="e:BankCustomerServiceBinding">
 			<soap:address location="http://localhost:50000/services/bankCustomer" />

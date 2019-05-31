@@ -7,21 +7,20 @@ import java.lang.reflect.Proxy;
 /**
  * Utility class to wrap the webservice implementation in a mock.
  */
-
 public class SoapServiceProxy implements InvocationHandler {
 	private Object obj;
 
 	public static <T> T newInstance(T obj) {
 		SoapServiceProxy proxy = new SoapServiceProxy(obj);
 		Class<?> clazz = obj.getClass();
-		T res = (T) Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), proxy);
-		return res;
+		return (T)Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), proxy);
 	}
 
 	SoapServiceProxy(Object obj) {
 		this.obj = obj;
 	}
 
+	@Override
 	public Object invoke(Object proxy, Method m, Object[] args) throws Exception {
 		try {
 			return m.invoke(obj, args);

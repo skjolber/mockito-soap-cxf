@@ -38,17 +38,15 @@ import com.github.skjolber.shop.example.v1.ShopCustomerServicePortType;
 
 /**
  * Test without reserving ports (as a {@linkplain Rule}.
- * 
- * @author skjolber
  *
+ * @author skjolber
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("dev1")
 public class BankCustomerSoapEndpointRuleTest {
-	
+
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
@@ -58,7 +56,6 @@ public class BankCustomerSoapEndpointRuleTest {
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
 	 */
-
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
 
@@ -67,14 +64,12 @@ public class BankCustomerSoapEndpointRuleTest {
 
 	/**
 	 * Mock object proxied by SOAP service
-	 * 
 	 */
-	private BankCustomerServicePortType bankServiceMock; 
-	private ShopCustomerServicePortType shopServiceMock; 
+	private BankCustomerServicePortType bankServiceMock;
+	private ShopCustomerServicePortType shopServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
-	 * 
 	 */
 	@Autowired
 	private BankCustomerService bankCustomerService;
@@ -84,17 +79,12 @@ public class BankCustomerSoapEndpointRuleTest {
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 		shopServiceMock = soap.mock(ShopCustomerServicePortType.class, shopCustomerServiceAddress);
 	}
-	
+
 	/**
-	 * 
 	 * Webservice call which results in regular response returned to the client.
-	 * 
 	 */
-
-
 	@Test
 	public void processNormalSoapCall() throws Exception {
-		
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -121,16 +111,12 @@ public class BankCustomerSoapEndpointRuleTest {
 
 		assertThat(accounts.getAccount(), is(accountList));
 	}
-	
-	/**
-	 * 
-	 * Webservice call which results in soap fault being returned to the client.
-	 * 
-	 */
 
+	/**
+	 * Webservice call which results in soap fault being returned to the client.
+	 */
 	@Test
 	public void processSoapCallWithException1() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -152,14 +138,13 @@ public class BankCustomerSoapEndpointRuleTest {
 		String secret = "abc";
 
 		exception.expect(Exception.class);
-		 
+
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
-	
+
 	@Test
 	public void processSoapCallWithException2() throws Exception {
-
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -179,14 +164,13 @@ public class BankCustomerSoapEndpointRuleTest {
 		String secret = "abc";
 
 		exception.expect(Exception.class);
-		 
+
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
-	
+
 	@Test
-	public void processValiationException() throws Exception {
-		
+	public void processValidationException() throws Exception {
 		// add mock response
 		GetAccountsResponse mockResponse = new GetAccountsResponse();
 		List<String> accountList = mockResponse.getAccount();
@@ -197,12 +181,11 @@ public class BankCustomerSoapEndpointRuleTest {
 
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
-		
+
 		exception.expect(Exception.class);
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
-
 	}
-	
+
 }
