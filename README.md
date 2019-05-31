@@ -26,7 +26,7 @@ Example dependency config:
 <dependency>
     <groupId>com.github.skjolber</groupId>
     <artifactId>mockito-soap-cxf</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -63,7 +63,7 @@ MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://local
 or, preferably
 
 ```java
-MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", "classpath:/wsdl/MyService.wsdl");
+MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", Arrays.asList("classpath:wsdl/MyService.xsd"));
 ```
 
 for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object.
@@ -197,6 +197,7 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
+ - 1.0.5: A lot of refactorings and code cleanups, update dependencies and fix port release - many thanks to [amichair](https://github.com/amichair)!
  - 1.0.4: Allow the usage of local:// transport - compliments of [aukevanleeuwen](https://github.com/aukevanleeuwen)
  - 1.0.3: MTOM support
  - 1.0.2: Support for mocking on (random) free ports (via SoapEndpointRule).
