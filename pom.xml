@@ -368,7 +368,7 @@
 				<!-- this is useful when the desired key is not the default (first)
 					 export GPG_KEY_NAME=ABCDEF01
 				-->
-				<gpg.executable>gpg</gpg.executable>
+				<gpg.executable>gpg2</gpg.executable>
 				<gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
 			</properties>
 			<build>
