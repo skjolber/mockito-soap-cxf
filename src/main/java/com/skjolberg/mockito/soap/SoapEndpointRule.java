@@ -74,22 +74,22 @@ public class SoapEndpointRule extends SoapServiceRule {
 		portManager.add(portNames);
 	}
 
-    /**
-     * Returns the port number that was reserved for the given name.
-     *
-     * @param portName port name
-     * @return a valid port number if the port has been reserved, -1 otherwise
-     */
+	/**
+	 * Returns the port number that was reserved for the given name.
+	 *
+	 * @param portName port name
+	 * @return a valid port number if the port has been reserved, -1 otherwise
+	 */
 	public int getPort(String portName) {
 		return portManager.getPort(portName);
 	}
 
-    /**
-     * Returns all port names and respective port numbers.
-     *
-     * @return a map of port name and port value (a valid port number
-     *         if the port has been reserved, or -1 otherwise)
-     */
+	/**
+	 * Returns all port names and respective port numbers.
+	 *
+	 * @return a map of port name and port value (a valid port number
+	 *         if the port has been reserved, or -1 otherwise)
+	 */
 	public Map<String, Integer> getPorts() {
 		return portManager.getPorts();
 	}
