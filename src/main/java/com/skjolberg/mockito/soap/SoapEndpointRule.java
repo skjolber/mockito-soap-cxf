@@ -106,15 +106,17 @@ public class SoapEndpointRule extends SoapServiceRule {
 		JaxWsServiceFactoryBean jaxWsServiceFactoryBean = new JaxWsServiceFactoryBean();
 
 		JaxWsServerFactoryBean serverFactoryBean = new JaxWsServerFactoryBean(jaxWsServiceFactoryBean);
-		serverFactoryBean.setAddress("http://localhost:" + port);
-
 		Bus bus = serverFactoryBean.getBus();
-		DestinationFactory destinationFactory = bus.getExtension(DestinationFactoryManager.class).getDestinationFactoryForUri(serverFactoryBean.getAddress());
+
+		String address = "http://localhost:" + port;
+		serverFactoryBean.setAddress(address);
+
+		DestinationFactory destinationFactory = bus.getExtension(DestinationFactoryManager.class).getDestinationFactoryForUri(address);
 
 		EndpointInfo ei = new EndpointInfo(null, Integer.toString(port));
-		ei.setAddress(serverFactoryBean.getAddress());
+		ei.setAddress(address);
 
-		Destination destination = destinationFactory.getDestination(ei, serverFactoryBean.getBus());
+		Destination destination = destinationFactory.getDestination(ei, bus);
 
 		ServiceImpl serviceImpl = new ServiceImpl();
 
@@ -133,8 +135,6 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 		T serviceInterface = SoapServiceProxy.newInstance(target);
 
-		Destination destination = portManager.getData(parsePort(address));
-
 		EndpointImpl endpoint = (EndpointImpl)Provider.provider().createEndpoint(null, serviceInterface);
 
 		if(wsdlLocation != null) {
@@ -147,6 +147,7 @@ public class SoapEndpointRule extends SoapServiceRule {
 
 		endpoint.setProperties(processProperties(properties, wsdlLocation, schemaLocations));
 
+		Destination destination = portManager.getData(parsePort(address));
 		if(destination != null) {
 			ServerImpl server = endpoint.getServer();
 			server.setDestination(destination);
