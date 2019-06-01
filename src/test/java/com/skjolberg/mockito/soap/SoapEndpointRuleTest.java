@@ -4,9 +4,12 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Assert;
@@ -121,6 +124,32 @@ public class SoapEndpointRuleTest {
 		soap.destroy();
 
 		Assert.assertTrue(PortManager.isPortAvailable(port));
+	}
+
+	@Test
+	public void testPortRange() throws IOException {
+		int start = 40000;
+		int end = start + 100;
+		String[] portNames = { "port1", "port2", "port3" };
+		SoapEndpointRule soap = SoapEndpointRule.newInstance(start, end, portNames);
+		soap.before();
+		try {
+			Assert.assertEquals(new HashSet<>(Arrays.asList(portNames)), soap.getPorts().keySet());
+			for (Integer port : soap.getPorts().values()) {
+				// verify port is within the range
+				Assert.assertTrue(port >= start && port <= end);
+				// and make sure it's really the port being used
+				String address = "http://localhost:" + port + "/service";
+				URL url = new URL(address + "?wsdl");
+				soap.mock(BankCustomerServicePortType.class, address);
+				try (InputStream in = url.openStream()) {
+					String wsdl = IOUtils.toString(in);
+					assertThat(wsdl, containsString("wsdl:definitions"));
+				}
+			}
+		} finally {
+			soap.after();
+		}
 	}
 
 }
