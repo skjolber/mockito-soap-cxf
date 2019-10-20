@@ -26,10 +26,12 @@ Example dependency config:
 <dependency>
     <groupId>com.github.skjolber</groupId>
     <artifactId>mockito-soap-cxf</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
     <scope>test</scope>
 </dependency>
 ```
+
+For JDK9+, add module `com.github.skjolber.mockito.soap`.
 
 ### CXF version < 3
 Add an exclusion for the `cxf-core` artifact
@@ -197,6 +199,7 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
+ - 1.1.0: Automatic module name; renamed packages accordingly.
  - 1.0.5: A lot of refactorings and code cleanups, update dependencies and fix port release - many thanks to [amichair](https://github.com/amichair)!
  - 1.0.4: Allow the usage of local:// transport - compliments of [aukevanleeuwen](https://github.com/aukevanleeuwen)
  - 1.0.3: MTOM support
