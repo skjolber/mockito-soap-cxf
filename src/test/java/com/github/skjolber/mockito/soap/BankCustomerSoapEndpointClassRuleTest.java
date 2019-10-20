@@ -1,6 +1,6 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
-import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
+import static com.github.skjolber.mockito.soap.SoapServiceFault.createFault;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,13 +8,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapFault;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -34,27 +38,28 @@ import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.CustomerException;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
+import com.github.skjolber.mockito.soap.PortManager;
+import com.github.skjolber.mockito.soap.SoapEndpointRule;
 import com.github.skjolber.shop.example.v1.ShopCustomerServicePortType;
 
 /**
- * Test without reserving ports (as a {@linkplain Rule}.
- *
- * @author skjolber
+ * Test with port reservations (as a {@linkplain ClassRule}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("dev1")
-public class BankCustomerSoapEndpointRuleTest {
+@ActiveProfiles("dev2")
+public class BankCustomerSoapEndpointClassRuleTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
-	@Rule
-	public SoapEndpointRule soap = SoapEndpointRule.newInstance();
+	@ClassRule
+	public static SoapEndpointRule soap = SoapEndpointRule.newInstance("myPort");
 
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
+	 * For reserved ports also with the port name: http://localhost:${myPort}/selfservice/bank
 	 */
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
@@ -76,8 +81,17 @@ public class BankCustomerSoapEndpointRuleTest {
 
 	@Before
 	public void setup() throws Exception {
+		Assert.assertFalse(PortManager.isPortAvailable(soap.getPort("myPort")));
+		assertThat(new URL(bankCustomerServiceAddress).getPort(), is(soap.getPort("myPort")));
+		assertThat(soap.getPorts().get("myPort"), is(soap.getPort("myPort")));
+
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 		shopServiceMock = soap.mock(ShopCustomerServicePortType.class, shopCustomerServiceAddress);
+	}
+
+	@After
+	public void teardown() {
+		soap.clear();
 	}
 
 	/**

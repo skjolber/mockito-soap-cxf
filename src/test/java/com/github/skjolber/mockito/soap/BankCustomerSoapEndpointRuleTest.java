@@ -1,6 +1,6 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
-import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
+import static com.github.skjolber.mockito.soap.SoapServiceFault.createFault;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,18 +34,25 @@ import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.CustomerException;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
+import com.github.skjolber.mockito.soap.SoapEndpointRule;
+import com.github.skjolber.shop.example.v1.ShopCustomerServicePortType;
 
+/**
+ * Test without reserving ports (as a {@linkplain Rule}.
+ *
+ * @author skjolber
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("dev1")
-public class BankCustomerSoapServerRuleTest {
+public class BankCustomerSoapEndpointRuleTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
 	@Rule
-	public SoapServerRule soap = SoapServerRule.newInstance();
+	public SoapEndpointRule soap = SoapEndpointRule.newInstance();
 
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
@@ -53,10 +60,14 @@ public class BankCustomerSoapServerRuleTest {
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
 
+	@Value("${shopcustomer.service}")
+	private String shopCustomerServiceAddress;
+
 	/**
 	 * Mock object proxied by SOAP service
 	 */
 	private BankCustomerServicePortType bankServiceMock;
+	private ShopCustomerServicePortType shopServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
@@ -65,8 +76,9 @@ public class BankCustomerSoapServerRuleTest {
 	private BankCustomerService bankCustomerService;
 
 	@Before
-	public void setup() {
+	public void setup() throws Exception {
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
+		shopServiceMock = soap.mock(ShopCustomerServicePortType.class, shopCustomerServiceAddress);
 	}
 
 	/**
@@ -171,9 +183,10 @@ public class BankCustomerSoapServerRuleTest {
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
 
-		exception.expect(Exception.class); // unmarshalling error, the client does not accept the document as a request
+		exception.expect(Exception.class);
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
+
 }

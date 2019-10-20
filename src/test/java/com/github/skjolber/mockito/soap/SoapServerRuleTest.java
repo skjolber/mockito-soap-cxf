@@ -1,4 +1,4 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
+import com.github.skjolber.mockito.soap.PortManager;
+import com.github.skjolber.mockito.soap.SoapServerRule;
 
 public class SoapServerRuleTest {
 

@@ -1,4 +1,4 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

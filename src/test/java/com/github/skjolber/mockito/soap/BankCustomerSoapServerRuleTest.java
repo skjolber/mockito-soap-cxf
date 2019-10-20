@@ -1,13 +1,18 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
-import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
-import com.github.skjolber.bank.example.v1.BankException;
-import com.github.skjolber.bank.example.v1.BankRequestHeader;
-import com.github.skjolber.bank.example.v1.CustomerException;
-import com.github.skjolber.bank.example.v1.GetAccountsRequest;
-import com.github.skjolber.bank.example.v1.GetAccountsResponse;
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
+import static com.github.skjolber.mockito.soap.SoapServiceFault.createFault;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.namespace.QName;
+
 import org.apache.cxf.binding.soap.SoapFault;
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,23 +28,19 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.xml.namespace.QName;
-import java.util.Arrays;
-import java.util.List;
-
-import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
+import com.github.skjolber.bank.example.v1.BankException;
+import com.github.skjolber.bank.example.v1.BankRequestHeader;
+import com.github.skjolber.bank.example.v1.CustomerException;
+import com.github.skjolber.bank.example.v1.GetAccountsRequest;
+import com.github.skjolber.bank.example.v1.GetAccountsResponse;
+import com.github.skjolber.mockito.soap.SoapServerRule;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("dev3")
-public class BankCustomerSoapServerLocalTransportRuleTest {
+@ActiveProfiles("dev1")
+public class BankCustomerSoapServerRuleTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -64,16 +65,8 @@ public class BankCustomerSoapServerLocalTransportRuleTest {
 	@Autowired
 	private BankCustomerService bankCustomerService;
 
-	@Autowired
-	private Bus bus;
-
 	@Before
 	public void setup() {
-		// When running all tests combined, the tests in this class would fail.
-		// It seems that even though we are using @DirtiesContext, CXF will still keep state in
-		// a ThreadLocal. This should prevent that and will make these test pass.
-		BusFactory.setThreadDefaultBus(bus);
-
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 	}
 

@@ -1,8 +1,10 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import com.github.skjolber.mockito.soap.SoapServiceRule;
 
 public class SoapServiceRuleTest {
 

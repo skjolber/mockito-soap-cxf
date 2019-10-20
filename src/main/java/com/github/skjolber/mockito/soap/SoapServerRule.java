@@ -1,4 +1,4 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
 import java.util.HashMap;
 import java.util.List;

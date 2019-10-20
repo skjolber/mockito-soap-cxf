@@ -1,6 +1,6 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
-import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
+import static com.github.skjolber.mockito.soap.SoapServiceFault.createFault;
 
 import java.io.IOException;
 

@@ -1,5 +1,6 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
+import static com.github.skjolber.mockito.soap.SoapServiceRule.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
@@ -35,8 +36,7 @@ import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
 import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
-
-import static com.skjolberg.mockito.soap.SoapServiceRule.*;
+import com.github.skjolber.mockito.soap.SoapEndpointRule;
 
 /**
  * Test use of MTOM (binary attachments).

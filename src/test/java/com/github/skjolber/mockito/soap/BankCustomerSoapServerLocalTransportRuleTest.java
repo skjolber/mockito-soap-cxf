@@ -1,24 +1,17 @@
-package com.skjolberg.mockito.soap;
+package com.github.skjolber.mockito.soap;
 
-import static com.skjolberg.mockito.soap.SoapServiceFault.createFault;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
+import com.github.skjolber.bank.example.v1.BankException;
+import com.github.skjolber.bank.example.v1.BankRequestHeader;
+import com.github.skjolber.bank.example.v1.CustomerException;
+import com.github.skjolber.bank.example.v1.GetAccountsRequest;
+import com.github.skjolber.bank.example.v1.GetAccountsResponse;
+import com.github.skjolber.mockito.soap.SoapServerRule;
 
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapFault;
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,44 +25,40 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
-import com.github.skjolber.bank.example.v1.BankException;
-import com.github.skjolber.bank.example.v1.BankRequestHeader;
-import com.github.skjolber.bank.example.v1.CustomerException;
-import com.github.skjolber.bank.example.v1.GetAccountsRequest;
-import com.github.skjolber.bank.example.v1.GetAccountsResponse;
-import com.github.skjolber.shop.example.v1.ShopCustomerServicePortType;
+import javax.xml.namespace.QName;
+import java.util.Arrays;
+import java.util.List;
 
-/**
- * Test with port reservations (as a {@linkplain ClassRule}.
- */
+import static com.github.skjolber.mockito.soap.SoapServiceFault.createFault;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("dev2")
-public class BankCustomerSoapEndpointClassRuleTest {
+@ActiveProfiles("dev3")
+public class BankCustomerSoapServerLocalTransportRuleTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
-	@ClassRule
-	public static SoapEndpointRule soap = SoapEndpointRule.newInstance("myPort");
+	@Rule
+	public SoapServerRule soap = SoapServerRule.newInstance();
 
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
-	 * For reserved ports also with the port name: http://localhost:${myPort}/selfservice/bank
 	 */
 	@Value("${bankcustomer.service}")
 	private String bankCustomerServiceAddress;
-
-	@Value("${shopcustomer.service}")
-	private String shopCustomerServiceAddress;
 
 	/**
 	 * Mock object proxied by SOAP service
 	 */
 	private BankCustomerServicePortType bankServiceMock;
-	private ShopCustomerServicePortType shopServiceMock;
 
 	/**
 	 * Business code which calls the SOAP service via an autowired client
@@ -77,19 +66,17 @@ public class BankCustomerSoapEndpointClassRuleTest {
 	@Autowired
 	private BankCustomerService bankCustomerService;
 
+	@Autowired
+	private Bus bus;
+
 	@Before
-	public void setup() throws Exception {
-		Assert.assertFalse(PortManager.isPortAvailable(soap.getPort("myPort")));
-		assertThat(new URL(bankCustomerServiceAddress).getPort(), is(soap.getPort("myPort")));
-		assertThat(soap.getPorts().get("myPort"), is(soap.getPort("myPort")));
+	public void setup() {
+		// When running all tests combined, the tests in this class would fail.
+		// It seems that even though we are using @DirtiesContext, CXF will still keep state in
+		// a ThreadLocal. This should prevent that and will make these test pass.
+		BusFactory.setThreadDefaultBus(bus);
 
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
-		shopServiceMock = soap.mock(ShopCustomerServicePortType.class, shopCustomerServiceAddress);
-	}
-
-	@After
-	public void teardown() {
-		soap.clear();
 	}
 
 	/**
@@ -194,10 +181,9 @@ public class BankCustomerSoapEndpointClassRuleTest {
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
 
-		exception.expect(Exception.class);
+		exception.expect(Exception.class); // unmarshalling error, the client does not accept the document as a request
 
 		// actually do something
 		bankCustomerService.getAccounts(customerNumber, secret);
 	}
-
 }
