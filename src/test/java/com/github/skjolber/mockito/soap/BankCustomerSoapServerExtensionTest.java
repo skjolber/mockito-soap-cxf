@@ -16,11 +16,10 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapFault;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +27,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.github.skjolber.bank.example.v1.BankCustomerServicePortType;
 import com.github.skjolber.bank.example.v1.BankException;
@@ -36,19 +35,13 @@ import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.CustomerException;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
-import com.github.skjolber.mockito.soap.SoapServerRule;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SoapServiceExtension.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations={"classpath:/spring/beans.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("dev1")
-public class BankCustomerSoapServerRuleTest {
-
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
-
-	@Rule
-	public SoapServerRule soap = SoapServerRule.newInstance();
+public class BankCustomerSoapServerExtensionTest {
 
 	/**
 	 * Endpoint address (full url), typically pointing to localhost for unit testing, remote host otherwise.
@@ -67,8 +60,8 @@ public class BankCustomerSoapServerRuleTest {
 	@Autowired
 	private BankCustomerService bankCustomerService;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	public void setup(SoapServiceExtension soap) {
 		bankServiceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress, Arrays.asList("classpath:wsdl/BankCustomerService.xsd"));
 	}
 
@@ -129,10 +122,11 @@ public class BankCustomerSoapServerRuleTest {
 		String customerNumber = "123456789";
 		String secret = "abc";
 
-		exception.expect(Exception.class);
+		Assertions.assertThrows(Exception.class, () -> {
+			// actually do something
+			bankCustomerService.getAccounts(customerNumber, secret);
+		});
 
-		// actually do something
-		bankCustomerService.getAccounts(customerNumber, secret);
 	}
 
 	@Test
@@ -155,10 +149,11 @@ public class BankCustomerSoapServerRuleTest {
 		String customerNumber = "123456789";
 		String secret = "abc";
 
-		exception.expect(Exception.class);
+		Assertions.assertThrows(Exception.class, () -> {
+			// actually do something
+			bankCustomerService.getAccounts(customerNumber, secret);
+		});
 
-		// actually do something
-		bankCustomerService.getAccounts(customerNumber, secret);
 	}
 
 	@Test
@@ -174,9 +169,10 @@ public class BankCustomerSoapServerRuleTest {
 		String customerNumber = "abcdef"; // must be all numbers, if not schema validation fails
 		String secret = "abc";
 
-		exception.expect(Exception.class); // unmarshalling error, the client does not accept the document as a request
-
-		// actually do something
-		bankCustomerService.getAccounts(customerNumber, secret);
+		// unmarshalling error, the client does not accept the document as a request
+		Assertions.assertThrows(Exception.class, () -> {
+			// actually do something
+			bankCustomerService.getAccounts(customerNumber, secret);
+		});
 	}
 }

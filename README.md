@@ -45,10 +45,46 @@ Add an exclusion for the `cxf-core` artifact
 </exclusions>
 ```
 
-# Usage
+# Usage 
+
+## Junit 5
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapServerExtensionTest.java).
+
+### Basics
+Add a `SoapServiceExtension`
+
+```java
+@ExtendWith(SoapServiceExtension.class)
+```
+
+and mock service endpoints by using
+
+```java
+private MyServicePortType serviceMock;
+
+@BeforeEach
+public void setup(SoapServiceExtension soap) {
+  serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345");
+}
+```
+
+or, preferably
+
+```java
+private MyServicePortType serviceMock;
+
+@BeforeEach
+public void setup(SoapServiceExtension soap) {
+  soap.mock(MyServicePortType.class, "http://localhost:12345", Arrays.asList("classpath:wsdl/MyService.xsd"));
+}
+```
+
+for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object.
+
+## JUnit 4
 If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointRuleTest.java).
 
-# Basics
+### Basics
 Create a `SoapServiceRule`
 
 ```java
@@ -56,21 +92,30 @@ Create a `SoapServiceRule`
 public SoapServiceRule soap = SoapServiceRule.newInstance();
 ```
 
+add a field
+
+```java
+private MyServicePortType serviceMock;
+```
+
 and mock service endpoints by using
 
 ```java
-MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345");
+@Before
+public void mockService() {
+  serviceMock = serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345");
+}
 ```
 
 or, preferably
 
 ```java
-MyServicePortType serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", Arrays.asList("classpath:wsdl/MyService.xsd"));
+serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345", Arrays.asList("classpath:wsdl/MyService.xsd"));
 ```
 
 for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object.
 
-# Details
+# Mocking
 Create mock response via code
 
 ```java
@@ -106,7 +151,7 @@ GetAccountsRequest request = argument1.getValue();
 assertThat(request.getCustomerNumber(), is(customerNumber));
 ```
 
-# SOAP Faults
+### SOAP Faults
 Mock SOAP faults by adding import
 
 ```java
@@ -120,21 +165,6 @@ when(serviceMock.getAccounts(any(GetAccountsRequest.class))).thenThrow(createFau
 ```
 
 or mock directly using an XML string / w3c DOM node.
-
-# SOAP service mock as a field
-Wrap mock creation using a @Before method if you prefer using fields for your mocks:
-
-```java
-@Value("${bankcustomer.service}")
-private String bankCustomerServiceAddress;
-
-private BankCustomerServicePortType serviceMock;
-
-@Before
-public void mockService() {
-	serviceMock = soap.mock(BankCustomerServicePortType.class, bankCustomerServiceAddress);
-}
-```
 
 # MTOM (binary attachments)
 CXF SOAP clients support MTOM of out the box, enable MTOM in the service mock using
@@ -153,7 +183,7 @@ mockResponse.setCertificate(new DataHandler(source)); // MTOM-enabled base64bina
 
 See [MTOM unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapServerRuleMtomTest.java) for an example.
 
-# Running in parallel
+# Running in parallel (Junit 4 only)
 For use-cases which require test-cases to run in parallel, it is possible to mock endpoints on random (free) ports. For the `SoapEndpointRule` methods
 
 ```java
@@ -199,6 +229,7 @@ then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` ar
 
 # History
 
+ - 1.2.0: JUnit 5 support.
  - 1.1.0: Automatic module name; renamed packages accordingly.
  - 1.0.5: A lot of refactorings and code cleanups, update dependencies and fix port release - many thanks to [amichair](https://github.com/amichair)!
  - 1.0.4: Allow the usage of local:// transport - compliments of [aukevanleeuwen](https://github.com/aukevanleeuwen)
