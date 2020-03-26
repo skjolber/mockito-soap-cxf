@@ -48,7 +48,7 @@ Add an exclusion for the `cxf-core` artifact
 # Usage 
 
 ## Junit 5
-If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapServerExtensionTest.java).
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/github/skjolber/mockito/soap/BankCustomerService.java).
 
 ### Basics
 Add a `SoapServiceExtension`
