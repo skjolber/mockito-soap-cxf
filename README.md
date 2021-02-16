@@ -48,7 +48,7 @@ Add an exclusion for the `cxf-core` artifact
 # Usage 
 
 ## Junit 5
-If you prefer skipping to a full example, see [this unit test](src/test/java/com/github/skjolber/mockito/soap/BankCustomerService.java).
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/github/skjolber/mockito/soap/BankCustomerSoapServerExtensionTest.java).
 
 ### Basics
 Add a `SoapServiceExtension`
@@ -82,7 +82,7 @@ public void setup(SoapServiceExtension soap) {
 for schema validation. The returned `serviceMock` instance is a normal Mockito mock(..) object.
 
 ## JUnit 4
-If you prefer skipping to a full example, see [this unit test](src/test/java/com/skjolberg/mockito/soap/BankCustomerSoapEndpointRuleTest.java).
+If you prefer skipping to a full example, see [this unit test](src/test/java/com/github/skjolber/mockito/soap/BankCustomerSoapEndpointRuleTest.java).
 
 ### Basics
 Create a `SoapServiceRule`
