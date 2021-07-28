@@ -103,7 +103,7 @@ and mock service endpoints by using
 ```java
 @Before
 public void mockService() {
-  serviceMock = serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345");
+  serviceMock = soap.mock(MyServicePortType.class, "http://localhost:12345");
 }
 ```
 
