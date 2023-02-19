@@ -26,24 +26,12 @@ Example dependency config:
 <dependency>
     <groupId>com.github.skjolber</groupId>
     <artifactId>mockito-soap-cxf</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <scope>test</scope>
 </dependency>
 ```
 
 For JDK9+, add module `com.github.skjolber.mockito.soap`.
-
-### CXF version < 3
-Add an exclusion for the `cxf-core` artifact
-
-```xml
-<exclusions>
-    <exclusion>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-core</artifactId>
-    </exclusion>
-</exclusions>
-```
 
 # Usage 
 
@@ -228,7 +216,7 @@ If you see exception cause by
 then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` artifact.
 
 # History
-
+ - 1.2.1: Maintainence release. JDK 8 (with CXF 3.x and Spring 5.3.x now live at jdk8 branch).
  - 1.2.0: JUnit 5 support.
  - 1.1.0: Automatic module name; renamed packages accordingly.
  - 1.0.5: A lot of refactorings and code cleanups, update dependencies and fix port release - many thanks to [amichair](https://github.com/amichair)!
