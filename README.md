@@ -20,18 +20,51 @@ Bugs, feature suggestions and help requests can be filed with the [issue-tracker
 # Obtain
 The project is based on [Maven] and is available form central Maven repository.
 
-Example dependency config:
+<details>
+  <summary>Maven coordinates</summary>
+
+Add
+ 
+```xml
+<mockito-soap-cxf.version>2.0.0</mockito-soap-cxf.version>
+```
+
+and
 
 ```xml
 <dependency>
     <groupId>com.github.skjolber</groupId>
     <artifactId>mockito-soap-cxf</artifactId>
-    <version>1.2.1</version>
-    <scope>test</scope>
+    <version>${mockito-soap-cxf.version}</version>
 </dependency>
 ```
 
-For JDK9+, add module `com.github.skjolber.mockito.soap`.
+</details>
+
+or
+
+<details>
+  <summary>Gradle coordinates</summary>
+
+For
+
+```groovy
+ext {
+  mockitoSoapCxfVersion = '2.0.0'
+}
+```
+
+add
+
+```groovy
+api("com.github.skjolber:mockito-soap-cxf:${mockitoSoapCxfVersion}")
+```
+
+</details>
+
+For JDK 9+, add module `com.github.skjolber.mockito.soap`.
+
+For JDK 8 or 11 use the `1.2.x` series (override spring and mockito dependency versions).
 
 # Usage 
 
