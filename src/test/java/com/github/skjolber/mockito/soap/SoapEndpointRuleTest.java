@@ -132,7 +132,7 @@ public class SoapEndpointRuleTest {
 	@Test
 	public void testPortRange() throws IOException {
 		int start = 40000;
-		int end = start + 100;
+		int end = start + 10000;
 		String[] portNames = { "port1", "port2", "port3" };
 		SoapEndpointRule soap = SoapEndpointRule.newInstance(start, end, portNames);
 		soap.before();
