@@ -216,7 +216,9 @@ If you see exception cause by
 then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` artifact.
 
 # History
- - 1.2.1: Maintainence release. JDK 8 (with CXF 3.x and Spring 5.3.x now live at jdk8 branch).
+
+ - 2.0.0: Move to JDK 17 and Spring 6.x and Mockito 5.x.
+ - 1.2.1: Maintainence release. JDK 8 (with CXF 3.x and Spring 5.3.x now live at jdk8 branch, on version 1.2.x).
  - 1.2.0: JUnit 5 support.
  - 1.1.0: Automatic module name; renamed packages accordingly.
  - 1.0.5: A lot of refactorings and code cleanups, update dependencies and fix port release - many thanks to [amichair](https://github.com/amichair)!

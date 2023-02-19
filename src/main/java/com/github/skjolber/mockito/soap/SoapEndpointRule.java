@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.spi.Provider;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.endpoint.ServerImpl;
@@ -22,6 +19,8 @@ import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.junit.ClassRule;
 
+import jakarta.xml.ws.spi.Provider;
+import jakarta.xml.ws.Endpoint;
 /**
  * Rule for mocking SOAP services using {@linkplain Endpoint}s. Multiple services can run on the same port.
  * If used as a {@linkplain ClassRule}, the rule can be used to reserve random free ports.

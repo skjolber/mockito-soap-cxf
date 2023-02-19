@@ -13,9 +13,6 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.InputStreamDataSource;
 import org.junit.Before;
@@ -37,6 +34,9 @@ import com.github.skjolber.bank.example.v1.BankRequestHeader;
 import com.github.skjolber.bank.example.v1.GetAccountsRequest;
 import com.github.skjolber.bank.example.v1.GetAccountsResponse;
 import com.github.skjolber.mockito.soap.SoapEndpointRule;
+
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
 
 /**
  * Test use of MTOM (binary attachments).

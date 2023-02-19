@@ -4,10 +4,6 @@ import static com.github.skjolber.mockito.soap.SoapServiceFault.createFault;
 
 import java.io.IOException;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.helpers.IOUtils;
@@ -16,6 +12,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.skjolber.bank.example.v1.BankException;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlType;
 
 public class SoapServiceFaultTest {
 
