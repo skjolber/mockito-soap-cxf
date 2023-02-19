@@ -8,7 +8,7 @@ on:
     branches: [ '**' ]
 
 jobs:
-  build-with-maven-jdk-11:
+  build-with-maven-jdk-17:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
