@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/skjolber/mockito-soap-cxf.svg?branch=master)](https://travis-ci.org/skjolber/mockito-soap-cxf)
+![Build Status](https://github.com/skjolber/mockito-soap-cxf/actions/workflows/maven.yml/badge.svg) 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.skjolber/mockito-soap-cxf.svg)](https://mvnrepository.com/artifact/com.github.skjolber/mockito-soap-cxf)
 
 # mockito-soap-cxf
 SOAP web-service mocking utility which creates real service endpoints on local ports using webserver instances. These endpoints delegate requests directly to mocks.
