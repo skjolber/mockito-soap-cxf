@@ -14,29 +14,29 @@
 		<maven.compiler.target>17</maven.compiler.target>
 
 		<junit.version>4.13.2</junit.version>
-		<junit5.version>5.9.2</junit5.version>
+		<junit5.version>5.12.0</junit5.version>
 
-		<mockito.version>5.1.1</mockito.version>
+		<mockito.version>5.16.0</mockito.version>
 		<hamcrest.version>2.2</hamcrest.version>
-		<commons-io.version>2.14.0</commons-io.version>
+		<commons-io.version>2.18.0</commons-io.version>
 
-		<cxf.version>4.1.0</cxf.version>
-		<spring.version>6.1.14</spring.version>
+		<cxf.version>4.1.1</cxf.version>
+		<spring.version>6.2.3</spring.version>
     
-		<logback.version>1.2.13</logback.version>
-		<slf4j.version>1.7.32</slf4j.version>
-		
+		<logback.version>1.5.17</logback.version>
+		<slf4j.version>2.0.17</slf4j.version>
+
 		<!-- plugins -->
 		<build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
-		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-		<maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
-		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-		<owasp-dependency-check.version>8.1.0</owasp-dependency-check.version>		
+		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+		<nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
+		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+		<maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+		<maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+		<maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
+		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+		<owasp-dependency-check.version>12.1.0</owasp-dependency-check.version>
 	</properties>
 
 	<licenses>
@@ -84,7 +84,7 @@
 			<version>${junit.version}</version>
 			<scope>compile</scope>
 			<optional>true</optional>
-		</dependency>        
+		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -220,7 +220,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.4.2</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
@@ -397,6 +397,27 @@
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>${owasp-dependency-check.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.moditect</groupId>
+				<artifactId>moditect-maven-plugin</artifactId>
+				<version>1.2.2.Final</version>
+				<executions>
+					<execution>
+						<id>add-module-infos</id>
+						<phase>package</phase>
+						<goals>
+							<goal>add-module-info</goal>
+						</goals>
+						<configuration>
+							<jvmVersion>${java.module.version}</jvmVersion>
+							<overwriteExistingFiles>true</overwriteExistingFiles>
+							<module>
+								<moduleInfoFile>src/main/java9/module-info.java</moduleInfoFile>
+							</module>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

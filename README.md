@@ -27,7 +27,7 @@ The project is based on [Maven] and is available form central Maven repository.
 Add
  
 ```xml
-<mockito-soap-cxf.version>2.0.0</mockito-soap-cxf.version>
+<mockito-soap-cxf.version>2.0.1</mockito-soap-cxf.version>
 ```
 
 and
@@ -51,7 +51,7 @@ For
 
 ```groovy
 ext {
-  mockitoSoapCxfVersion = '2.0.0'
+  mockitoSoapCxfVersion = '2.0.1'
 }
 ```
 
@@ -249,8 +249,13 @@ If you see exception cause by
 
 then you're mixing CXF version 2 and 3 - see above about excluding `cxf-core` artifact.
 
+# See also
+
+ * [mockito-rest-spring](https://github.com/skjolber/mockito-rest-spring) for REST / GraphQL mocking.
+
 # History
 
+ - 2.0.1: Maintenance release (bump dependencies). Thank you @RufManuel for help.
  - 2.0.0: Move to JDK 17 and Spring 6.x and Mockito 5.x.
  - 1.2.1: Maintainence release. JDK 8 (with CXF 3.x and Spring 5.3.x now live at jdk8 branch, on version 1.2.x).
  - 1.2.0: JUnit 5 support.
